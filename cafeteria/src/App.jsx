@@ -1,12 +1,18 @@
-import React, {useState} from 'react'
-import {Menu} from './components/menu'
-import {getProducts} from './components/data'
+import React from 'react'
+import { RestaurantMenu } from './components/RestaurantMenu'
+import { Cocina } from './components/cocina'
+import { getProducts } from './components/allProducts'
+import { Route, Routes } from "react-router-dom";
 
-const products = getProducts();
+const allProducts = getProducts();
 export function App() {
     return (
         <>
-        <Menu productos={products}/>
-        </> 
+            <Routes>
+                <Route exact path="/" element={<Cocina />} />
+                <Route exact path="RestaurantMenu" element={<RestaurantMenu />} />
+                <Route exact path="cocina" element={<Cocina />} />
+            </Routes>
+        </>
     )
 }
