@@ -30,5 +30,21 @@
         "persons": 2,
         "bill": 0,
         "orders": []
+    },
+    "mesa5": {
+        "number": 5,
+        "active": false,
+        "checkInTime": "13:03",
+        "persons": 2,
+        "bill": 0,
+        "orders": []
+    },
+    "mesa6": {
+        "number": 6,
+        "active": true,
+        "checkInTime": "14:03",
+        "persons": 2,
+        "bill": 0,
+        "orders": []
     }
 }
