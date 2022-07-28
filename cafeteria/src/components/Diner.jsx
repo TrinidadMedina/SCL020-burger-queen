@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Table } from './Table'
 import { TableInfo } from './TableInfo'
 import tables from '../dataTable.json'
+import { Link } from 'react-router-dom'
 
 export const Diner = () => {
 
@@ -9,6 +10,10 @@ export const Diner = () => {
     const [selectedTable, setSelectedTable] = useState([])
 
     return (<>
+        <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <Link to="/">Home</Link>
+        </div>
+
         <div>Diner</div>
         <img src="" alt="" />
         <div style={{ border: "solid 2px black" }}>
