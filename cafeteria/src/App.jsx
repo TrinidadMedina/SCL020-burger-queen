@@ -1,6 +1,7 @@
 import React from 'react'
 import { RestaurantMenu } from './components/RestaurantMenu'
-import { Cocina } from './components/cocina'
+import { Diner } from './components/Diner'
+import { Kitchen } from './components/Kitchen'
 import { getProducts } from './components/allProducts'
 import { Route, Routes } from "react-router-dom";
 
@@ -9,9 +10,10 @@ export function App() {
     return (
         <>
             <Routes>
-                <Route exact path="/" element={<Cocina />} />
+                <Route exact path="/" element={<Kitchen />} />
                 <Route exact path="RestaurantMenu" element={<RestaurantMenu />} />
-                <Route exact path="cocina" element={<Cocina />} />
+                <Route exact path="Kitchen" element={<Kitchen />} />
+                <Route exact path="Diner" element={<Diner />} />
             </Routes>
         </>
     )
