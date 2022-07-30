@@ -1,20 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Product } from './Product'
 import { menu } from '../data'
 import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import {Timestamp} from 'firebase/firestore';
+
 //actualizar arreglo segun horario
-//categorias, mostrar una vez las que estan activas #b5b5b5;
+//Enviar orden a diner y a kitchen
+//setear la orden a cero aqui
 
 export function RestaurantMenu() {
     const [showDialog, setShowDialog] = useState(false);
     const [food, setFood] = useState(menu);
+    const [productCategory,setProductCategory] = useState(menu);
+    const [order, setOrder] = useState();
 
     const unique = Array.from(new Set(menu.map(item => item.category)));
+
+    console.log(typeof uuidv4())
 
     const handleShowItems = (category) => {
         const newMenu = [...menu];
         const products = newMenu.filter((product) => product.category === category);
-        setFood(products)
+        setProductCategory(products)
         setShowDialog(true)
     }
 
@@ -24,6 +32,28 @@ export function RestaurantMenu() {
         product.selected = !product.selected;
         setFood(newMenu);
     };
+
+    const handleSendOrder = () =>{
+        const confirmAlert = confirm('¿Enviar a cocina?');
+        if (confirmAlert===true){
+            const newOrder = menu.filter((product) => product.selected);
+            newOrder.id = uuidv4();
+            newOrder.date = Timestamp.fromDate(new Date())
+            setOrder(newOrder);
+        }
+    }
+
+    useEffect(()=>{
+        console.log(order)
+        localStorage.setItem('key', JSON.stringify(order))
+    },[order])
+
+   // useEffect(() => {
+        //const storedOrder = JSON.parse(localStorage.getItem('key'));
+       /*  if (storedTodos) {
+          setTodos(storedTodos);
+        } */
+      //}, []);
 
     return (
         <div className="w-full flex flex-col	" >
@@ -38,7 +68,7 @@ export function RestaurantMenu() {
                         <div className="container">
                             <ul key={category} onClick={() => { handleShowItems(category) }} >
                                 <a>{category}</a>
-                                {food.map((product) =>
+                                {productCategory.map((product) =>
                                     product.category === category ?
                                         <Product show={showDialog} product={product} toggleProduct={toggleProduct} />
                                         : null
@@ -46,10 +76,13 @@ export function RestaurantMenu() {
                             </ul>
                         </div>
                     ))}
-                    {<div>has sleccionado {JSON.stringify(menu.filter((product) => product.selected))}</div>}
+                    <Link to="/Diner" onClick={handleSendOrder}>Enviar</Link>
+                    <div>has sleccionado {JSON.stringify(menu.filter((product) => product.selected))}</div>
                 </nav>
             </div>
         </div >
     )
 }
+
+
 
