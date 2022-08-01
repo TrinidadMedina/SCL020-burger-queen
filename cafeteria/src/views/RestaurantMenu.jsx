@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Product } from '../components/Product'
 import { menu } from '../data'
 import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Timestamp, addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase/config.js';
 import { useEffect } from 'react';
+import {ButtonHome} from '../components/ButtonHome.jsx'
 //actualizar arreglo segun horario
 //Enviar orden a diner y a kitchen
 //setear arreglo menu selected:false - setear checkbox
@@ -16,9 +16,6 @@ export function RestaurantMenu() {
     console.log(tableNumber)
 
     const [food, setFood] = useState(menu);
-    const [clear, setClear] = useState(false);
-    const order = [];
-
 
     const unique = Array.from(new Set(menu.map(item => item.category)));
     const toggleProduct = (name) => {
@@ -28,7 +25,8 @@ export function RestaurantMenu() {
         setFood(newMenu);
     };
 
-    const handleSendOrder = () => {
+    const handleSendOrder = () => {//NO ENVIAR SI ESTA VACIO
+        counter++
         const confirmAlert = confirm('¿Enviar a cocina?');
         if (confirmAlert === true) {
             const products = menu.filter((product) => product.selected);
@@ -36,19 +34,12 @@ export function RestaurantMenu() {
                 date: Timestamp.fromDate(new Date()),
                 table: tableNumber,
                 products,
+                orderId:tableNumber+"-"+uuidv4()
                 //meserx: "",
                 //observaciones:"",
             })
-            //setClear(true)
-
         }
     }
-
-    /*      useEffect(()=>{
-            const newMenu = [...menu]
-            console.log('effect')
-            setFood(newMenu);
-        },[clear]) */
 
     const handleClikCategory = (e) => {
         const cat = e.currentTarget;
@@ -62,9 +53,7 @@ export function RestaurantMenu() {
 
     return (
         <div className="w-screen flex flex-col">
-            <div className="bg-gray-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded w-24">
-                <Link to="/">Home</Link>
-            </div>
+            <ButtonHome />
             <main className="w-2/5 self-center rounded shadow-lg">
             {unique.map((category) => (
                 <div className="w-full self-center">
@@ -85,19 +74,14 @@ export function RestaurantMenu() {
                 </div>
             ))}
             </main>
-            <button className="bg-gray-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded w-24" onClick={handleSendOrder}>Enviar</button>
+            <button className="bg-gray-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded w-24" onClick={handleSendOrder}>
+                <Link to="/Diner">Enviar</Link>
+            </button>
             <div>has sleccionado {JSON.stringify(menu.filter((product) => product.selected))}</div>
         </div>
     )
 }
 
-{/* <div className="panel">
-<input className="check" type="checkbox" onChange={handleCheck} checked={product.selected}></input>
-<span className="product-name">{product.name}</span>
-<p>${product.price}</p>
-</div> */}
-{/* <div className="flex self-center justify-self-center		items-center	justify-center	outline-1 max-w-md mx-auto rounded overflow-hidden shadow-lg" >
-<div className=" rounded overflow-hidden shadow-lg"> */}
 
 
 
