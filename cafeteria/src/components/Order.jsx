@@ -1,7 +1,8 @@
 import React from 'react'
 
-export function Order({order}) {
+export function Order(props) {
+  console.log(props)
   return (
-    <div>Orden: {order}</div>
+    <div>Orden: {props.table}</div>
   )
 }

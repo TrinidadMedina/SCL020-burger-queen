@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-
-export const TableInfo = ({ isShown, closeTableInfo, selectedTable, openMenu, activateTable }) => {
+import React from 'react'
+import { Link } from 'react-router-dom';
+import { RestaurantMenu } from '../views/RestaurantMenu';
+export const TableInfo = ({ isShown, closeTableInfo, selectedTable, openMenu, activateTable, allOrders }) => {
     const { number, bill, active, order, checkInTime } = selectedTable;
+
     if (isShown) {
         return (
             <section className='place-content-center flex flex-col p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>
@@ -11,15 +13,25 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, openMenu, ac
                 </div>
                 <article>
                     <ul>
-                        <li>Bill: $ {bill}</li>
                         <li>Time:{active && checkInTime}</li>
-                        <li>Order:{order}</li>
-                        <li>active:{active.toString()}</li>
+                        <li className='font-bold'>Order:<div>{allOrders.map((order) => {
+                            return (
+                                order.table === number ? <ul className='font-light grid grid-cols-2 '>{order.products && order.products.map((product) => { return (<><li>-{product.name}</li><li>${product.price}</li></>) })}</ul> : null
+                            )
+                        })}</div></li>
+
+                        <li className='font-bold grid grid-cols-2 '>Total:<p>${active.toString()} </p> </li>
+
                     </ul>
+
                     {active ?
                         <button className=' bg-gray-500   place-content-center text-white font-bold py-2 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> CheckOut #{number}</button> :
-                        <button className=' bg-gray-500  place-content-center text-white font-bold py-2 px-4  rounded' type="button" onClick={() => { console.log(selectedTable), activateTable() }}> CheckIn #{number}</button>}
-                    <button className=' bg-gray-500   place-content-center text-white font-bold py-2 px-4  rounded' type="button" onClick={() => { openMenu() }}> Add product </button>
+                        <button className=' bg-gray-500  place-content-center text-white font-bold py-2 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> CheckIn #{number}</button>}
+                    <button className=' bg-gray-500   place-content-center text-white font-bold py-2 px-4  rounded' type="button" onClick={() => { }}> Add product </button>
+                    <div className=' bg-gray-500 hover:bg-blue-700   text-white font-bold py-2 px-4  rounded'>
+                        <Link caca={"CACA"} to={{ pathname: "/RestaurantMenu", state: number }}>Add Products</Link>
+                    </div>
+
                 </article>
             </section>
         )

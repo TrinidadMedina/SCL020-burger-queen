@@ -4,13 +4,28 @@ import { TableInfo } from '../components/TableInfo'
 import tables from '../dataTable.json'
 import { Link } from 'react-router-dom'
 import Clock from '../components/Clock'
-import {Order} from '../components/Order'
+import { Order } from '../components/Order'
 import { RestaurantMenu } from './RestaurantMenu'
+import { db } from '../firebase/config'
+import { collection, getDocs } from 'firebase/firestore'
+import { RestMenu } from '../components/RestMenu'
 
 export const Diner = () => {
     const [isShown, setIsShown] = useState(false);
     const [selectedTable, setSelectedTable] = useState({ number: 1, bill: 29, checkInTime: "99" })
-    const [showMenu, setShowMenu] = useState(false)
+    const [showMenu, setShowMenu] = useState(false);
+    const [order, setOrder] = useState([]);
+    const orderCollectionRef = collection(db, "orders");
+
+    useEffect(() => {
+        const getOrders = async () => {
+            const data = await getDocs(orderCollectionRef);
+            setOrder(data.docs.map((order) => ({ ...order.data() })))
+            console.log(order)
+        }
+        getOrders();
+    }, [])
+
     const showInfoTable = () => {
         setIsShown(true)
     }
@@ -22,16 +37,16 @@ export const Diner = () => {
     const selectTable = (table) => {
         setSelectedTable({ ...table })
     }
-    const openMenu = () => {
+    const openMenu = (number) => {
 
+        setIsShown(false)
     }
+
     const activateTables = () => {
         setSelectedTable({ ...selectedTable, checkInTime: Date.now().toLocaleString(), active: true })
         console.log(selectedTable)
     }
-    useEffect(() => {
-        console.log("use Effect")
-    })
+
     console.log("render")
     return (
         <>
@@ -46,16 +61,16 @@ export const Diner = () => {
                     </div>
                 </nav>
                 {isShown ?
-                    <><TableInfo openMenu={openMenu} activateTable={activateTables} closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} /> { } </> :
+                    <><TableInfo allOrders={order} openMenu={openMenu} activateTable={activateTables} closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} /> <RestMenu selectedTable={selectedTable} /> </> :
                     <><div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 py-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                         {Object.entries(tables).map((caca) => (caca.map((tableObj) => (<Table selectTable={selectTable} showInfoTable={showInfoTable} table={tableObj} />))))}
                     </div>
                         <div className='place-content-center p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>Pendientes:
-                            <Order order='orden' />
+
                         </div>
                     </>
                 }
             </div >
         </>
     )
-            }
+}
