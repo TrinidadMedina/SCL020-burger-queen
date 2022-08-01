@@ -10,7 +10,14 @@ function Clock() {
         }, 1000);
     }, []);
 
-    return < >{clockState}</>;
+    
+    return(
+        <div className=' font-bold place-content-center  px-3 m-4  bg-white shadow-lg rounded-lg ' >
+            User: 
+            <br />
+            <div>Time: {clockState}</div>
+        </div>
+    ) 
 }
 
 export default Clock;

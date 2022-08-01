@@ -2,41 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin:0px;
-  padding:0px;
-}
+
 #root{
   width: 100vw;
   height: 100vh;
-  display:flex;
 }
 body{
-  display:flex;
-  justify-content: center;
   width: 100vw;
   height: 100vh;
   background-color: #f4f4f4;
 } 
 
-.accordion {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  text-align: left;
-}
-
 .active, .accordion:hover {
   background-color: #ccc;
-}
-
-.panel {
-  padding: 0 18px;
-  background-color: white;
-  display: none;
-  overflow: hidden;
 }
 
 .accordion:after {

@@ -8,7 +8,6 @@ import { Order } from '../components/Order'
 import { RestaurantMenu } from './RestaurantMenu'
 import { db } from '../firebase/config'
 import { collection, getDocs, query, onSnapshot, orderBy } from 'firebase/firestore'
-import { RestMenu } from '../components/RestMenu'
 
 export const Diner = () => {
     const [isShown, setIsShown] = useState(false);
@@ -60,10 +59,7 @@ export const Diner = () => {
                     <div className="  bg-gray-500 hover:bg-blue-700 text-white font-bold  py-6 px-4 rounded">
                         <Link to="/">Home</Link>
                     </div>
-                    <div className=' font-bold place-content-center  px-3 my-4  bg-white shadow-lg rounded-lg ' >
-                        User: <br />
-                        <div className=" ">Time: <Clock /></div>
-                    </div>
+                    <Clock />
                 </nav>
                 {isShown ?
                     <>
