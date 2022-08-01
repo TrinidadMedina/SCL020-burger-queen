@@ -12,5 +12,6 @@ export function Order({order}) {
         ))}
     </div>
     </div>
+
   )
 }
