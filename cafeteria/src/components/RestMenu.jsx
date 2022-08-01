@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 //Enviar orden a diner y a kitchen
 //setear arreglo menu selected:false - setear checkbox
 
-export function RestaurantMenu({ selectedTable }) {
+export function RestMenu({ selectedTable }) {
 
     console.log(selectedTable)
 
@@ -30,10 +30,11 @@ export function RestaurantMenu({ selectedTable }) {
     const handleSendOrder = () => {
         const confirmAlert = confirm('¿Enviar a cocina?');
         if (confirmAlert === true) {
+            console.log(selectedTable.selectedTable.number)
             const products = menu.filter((product) => product.selected);
             addDoc(collection(db, 'orders'), {
                 date: Timestamp.fromDate(new Date()),
-                table: 4,
+                table: selectedTable.selectedTable.number,
                 products,
                 //meserx: "",
                 //observaciones:"",
@@ -43,11 +44,6 @@ export function RestaurantMenu({ selectedTable }) {
         }
     }
 
-    /*      useEffect(()=>{
-            const newMenu = [...menu]
-            console.log('effect')
-            setFood(newMenu);
-        },[clear]) */
 
     const handleClikCategory = (e) => {
         const cat = e.currentTarget;
@@ -61,10 +57,6 @@ export function RestaurantMenu({ selectedTable }) {
 
     return (
         <div className="w-screen flex flex-col">
-            {/* <p>{props}</p> */}
-            <div className="bg-gray-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded w-24">
-                <Link to="/">Home</Link>
-            </div>
             {unique.map((category) => (
                 <div className="w-2/5 self-center">
                     <button className="accordion" onClick={handleClikCategory} key={category}>{category}</button>
@@ -82,7 +74,7 @@ export function RestaurantMenu({ selectedTable }) {
                     </div>
                 </div>
             ))}
-            <button className="bg-gray-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded w-24" onClick={handleSendOrder}>Enviar</button>
+            <button className="bg-gray-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded w-24" onClick={() => { handleSendOrder() }}>Enviar</button>
             <div>has sleccionado {JSON.stringify(menu.filter((product) => product.selected))}</div>
         </div>
     )
