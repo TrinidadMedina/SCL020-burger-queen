@@ -5,22 +5,26 @@ import { RestaurantMenu } from '../views/RestaurantMenu';
 
 export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders }) => {
     const { number, bill, active, order, checkInTime } = selectedTable;
-    console.log(selectedTable)
+    console.log(allOrders)
 
     if (isShown) {
         return (
             <section className='place-content-center flex flex-col p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>
                 <div className='place-content-center justify-between flex flex-row-reverse'>
-                    <button className=' bg-gray-500    text-white font-bold py-1 px-2  rounded' type="button" onClick={() => {closeTableInfo(isShown) }}> X </button>
+                    <button className=' bg-gray-500    text-white font-bold py-1 px-2  rounded' type="button" onClick={() => { closeTableInfo(isShown) }}> X </button>
                     <h1 className='font-bold text-xl'>Table {number}</h1>
                 </div>
                 <article>
                     <ul>
                         <li>Time:{active && checkInTime}</li>
-                        {allOrders.map((order)=>(
-                            order.table===`${number}`?
-                            <div>{JSON.stringify(order)}</div>:null
-                        ))}
+                        {allOrders.map((item) => {
+                            return item.table == number && <ul> {item.products.map((product) => {
+                                return (<li>-{product.name
+                                }</li>)
+                            })}</ul>
+                        })}
+
+
 
                     </ul>
                     <ul className='font-light grid grid-cols-2 '>
@@ -39,7 +43,10 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders })
 }
 
 
-
+// order.table===`${number}`?
+// <div>{
+//     JSON.stringify(order)}
+// </div>:null
 {/* <li className='font-bold'>Order:{allOrders.map((order) => {
                             console.log(order.products[0].name)
                             return (<> <div>caca{order.products[0].table}</div>

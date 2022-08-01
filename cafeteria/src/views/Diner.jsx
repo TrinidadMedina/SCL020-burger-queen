@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from '../components/Table'
 import { TableInfo } from '../components/TableInfo'
-import {tables} from '../data.jsx'
+import { tables } from '../data.jsx'
 import { Link } from 'react-router-dom'
 import Clock from '../components/Clock'
 import { Order } from '../components/Order'
@@ -16,15 +16,6 @@ export const Diner = () => {
     const [order, setOrder] = useState([]);
     const [allTables, setAllTables] = useState(tables)
 
-    // useEffect(() => {
-    //     const getOrders = async () => {
-    //         const data = await getDocs(orderCollectionRef);
-    //         console.log(data)
-    //         setOrder(data.docs.map((order) => ({ ...order.data() })))
-    //         console.log(order)
-    //     }
-    //     getOrders();
-    // }, [])
 
     const callback = (data) => {
         return setOrder(data.docs.map((caca) => { return ({ ...caca.data() }) }))
@@ -47,8 +38,8 @@ export const Diner = () => {
         setIsShown(true)
         const newTables = [...allTables]
         const newTable = newTables.find((table) => table.number === number);
-        newTable.active=true;
-        setSelectedTable({...newTable})
+        newTable.active = true;
+        setSelectedTable({ ...newTable })
         setAllTables([...newTables])
     }
 
@@ -67,17 +58,17 @@ export const Diner = () => {
                 </nav>
                 {isShown ?
                     <>
-                        <TableInfo allOrders={order} closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} />  
-                    </> 
-                    :<>
+                        <TableInfo allOrders={order} closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} />
+                    </>
+                    : <>
                         <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 py-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-                            {allTables.map((table) => 
-                                <div onClick={()=>{activateTables(table.number)}}>
-                                <Table table={table} />
+                            {allTables.map((table) =>
+                                <div onClick={() => { activateTables(table.number) }}>
+                                    <Table table={table} />
                                 </div>)}
                         </div>
                         <div className='place-content-center p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>
-                            Pendientes:
+                            Pendientes: <Order allOrders={order} />
                         </div>
                     </>
                 }
@@ -85,3 +76,4 @@ export const Diner = () => {
         </>
     )
 }
+

@@ -1,8 +1,24 @@
 import React from 'react'
 
-export function Order(props) {
-  console.log(props)
+export function Order({ allOrders }) {
+  console.log(allOrders)
+
   return (
-    <div>Orden: {props.table}</div>
+    <div> Orden:
+      {allOrders.map((item) => {
+        item.products.map((product) => {
+          console.log(product.name)
+          return (
+            <p>{product.name}</p>
+          )
+
+        })
+      })}
+
+    </div>
+
+
+
+
   )
 }
