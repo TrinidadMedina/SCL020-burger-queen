@@ -3,7 +3,7 @@ import { Product } from './Product'
 import { menu } from '../data'
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import {Timestamp} from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 
 //actualizar arreglo segun horario
 //Enviar orden a diner y a kitchen
@@ -12,7 +12,7 @@ import {Timestamp} from 'firebase/firestore';
 export function RestaurantMenu() {
     const [showDialog, setShowDialog] = useState(false);
     const [food, setFood] = useState(menu);
-    const [productCategory,setProductCategory] = useState(menu);
+    const [productCategory, setProductCategory] = useState(menu);
     const [order, setOrder] = useState();
 
     const unique = Array.from(new Set(menu.map(item => item.category)));
@@ -33,9 +33,9 @@ export function RestaurantMenu() {
         setFood(newMenu);
     };
 
-    const handleSendOrder = () =>{
+    const handleSendOrder = () => {
         const confirmAlert = confirm('¿Enviar a cocina?');
-        if (confirmAlert===true){
+        if (confirmAlert === true) {
             const newOrder = menu.filter((product) => product.selected);
             newOrder.id = uuidv4();
             newOrder.date = Timestamp.fromDate(new Date())
@@ -43,17 +43,17 @@ export function RestaurantMenu() {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(order)
         localStorage.setItem('key', JSON.stringify(order))
-    },[order])
+    }, [order])
 
-   // useEffect(() => {
-        //const storedOrder = JSON.parse(localStorage.getItem('key'));
-       /*  if (storedTodos) {
-          setTodos(storedTodos);
-        } */
-      //}, []);
+    // useEffect(() => {
+    //const storedOrder = JSON.parse(localStorage.getItem('key'));
+    /*  if (storedTodos) {
+       setTodos(storedTodos);
+     } */
+    //}, []);
 
     return (
         <div className="w-full flex flex-col	" >
