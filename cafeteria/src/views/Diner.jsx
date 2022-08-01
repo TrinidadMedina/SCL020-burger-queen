@@ -12,7 +12,7 @@ import { RestMenu } from '../components/RestMenu'
 
 export const Diner = () => {
     const [isShown, setIsShown] = useState(false);
-    const [selectedTable, setSelectedTable] = useState({ number: 1, bill: 29, checkInTime: "99" })
+    const [selectedTable, setSelectedTable] = useState({tables})
     const [showMenu, setShowMenu] = useState(false);
     const [order, setOrder] = useState([]);
     const orderCollectionRef = collection(db, "orders");
@@ -28,43 +28,31 @@ export const Diner = () => {
     // }, [])
 
     const callback = (data) => {
-        // console.log(data.docs.map((order) => { console.log(order); return { ...order.data() } }))
         return setOrder(data.docs.map((caca) => { return ({ ...caca.data() }) }))
-        // return data.docs.map((order) => { setOrder(order.data()); return [{ ...order.data() }] })
-
     }
 
     useEffect(() => {
         const getOrders = async () => {
             const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
             onSnapshot(q, callback)
-
         }
         getOrders()
-
-
     }, [])
 
+    const showInfoTable = () =>{
 
-    const showInfoTable = () => {
-        setIsShown(true)
     }
+
     const closeTableInfo = (isShown) => {
         if (isShown)
             setIsShown(false)
     }
 
-    const selectTable = (table) => {
-        setSelectedTable({ ...table })
-    }
-    const openMenu = (number) => {
-
-        setIsShown(false)
-    }
-
-    const activateTables = () => {
-        setSelectedTable({ ...selectedTable, checkInTime: Date.now().toLocaleString(), active: true })
-        console.log(selectedTable)
+    const activateTables = (number) => {
+        setIsShown(true)
+        const newTables = [...selectedTable]
+        const newTable = newTables.find((table) => table.number === number);
+        setSelectedTable({...newTable, active: true })
     }
 
     console.log("render")
@@ -81,12 +69,19 @@ export const Diner = () => {
                     </div>
                 </nav>
                 {isShown ?
-                    <><TableInfo allOrders={order} openMenu={openMenu} activateTable={activateTables} closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} />  </> :
-                    <><div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 py-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-                        {Object.entries(tables).map((caca) => (caca.map((tableObj) => (<Table selectTable={selectTable} showInfoTable={showInfoTable} table={tableObj} />))))}
-                    </div>
-                        <div className='place-content-center p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>Pendientes:
-
+                    <>
+                        <TableInfo allOrders={order} closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} />  
+                    </> 
+                    :<>
+                        <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 py-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+                            {Object.entries(tables).map((table) => 
+                                (table.map((item) => 
+                                <div onClick={()=>{activateTables(item.number)}}>
+                                <Table showInfoTable={showInfoTable} table={item} />
+                                </div>)))}
+                        </div>
+                        <div className='place-content-center p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>
+                            Pendientes:
                         </div>
                     </>
                 }
