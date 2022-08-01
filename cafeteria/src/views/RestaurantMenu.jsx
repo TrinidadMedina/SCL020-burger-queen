@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Product } from '../components/Product'
 import { menu } from '../data'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Timestamp, addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase/config.js';
@@ -10,9 +10,10 @@ import { useEffect } from 'react';
 //Enviar orden a diner y a kitchen
 //setear arreglo menu selected:false - setear checkbox
 
-export function RestaurantMenu({ selectedTable }) {
+export function RestaurantMenu() {
 
-    console.log(selectedTable)
+    const { tableNumber } = useParams();
+    console.log(tableNumber)
 
     const [food, setFood] = useState(menu);
     const [clear, setClear] = useState(false);

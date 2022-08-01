@@ -10,7 +10,7 @@ export function App() {
         <>
             <Routes>
                 <Route exact path="/" element={<Home />} />
-                <Route exact path="RestaurantMenu" element={<RestaurantMenu />} />
+                <Route exact path="RestaurantMenu/:tableNumber" element={<RestaurantMenu />} />
                 <Route exact path="Diner" element={<Diner />} />
                 <Route exact path="Kitchen" element={<Kitchen />} />
             </Routes>

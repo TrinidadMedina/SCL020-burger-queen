@@ -29,7 +29,7 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, openMenu, ac
                         <button className=' bg-gray-500  place-content-center text-white font-bold py-2 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> CheckIn #{number}</button>}
                     <button className=' bg-gray-500   place-content-center text-white font-bold py-2 px-4  rounded' type="button" onClick={() => { }}> Add product </button>
                     <div className=' bg-gray-500 hover:bg-blue-700   text-white font-bold py-2 px-4  rounded'>
-                        <Link caca={"CACA"} to={{ pathname: "/RestaurantMenu", state: number }}>Add Products</Link>
+                        <Link to={`/RestaurantMenu/${number}`}>Add Products</Link>
                     </div>
 
                 </article>
@@ -38,4 +38,7 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, openMenu, ac
     }
 
 }
+{/* <Route path="/" element={<LaunchList />} />
+<Route path="launch/:launchId" element={<LaunchDetails />} /> */}
+//<Link to={`/launch/${launch.flight_number}`}>
 
