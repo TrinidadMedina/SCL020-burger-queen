@@ -34,7 +34,7 @@ export function RestaurantMenu() {
             const products = menu.filter((product) => product.selected);
             addDoc(collection(db, 'orders'), {
                 date: Timestamp.fromDate(new Date()),
-                table: 4,
+                table: tableNumber,
                 products,
                 //meserx: "",
                 //observaciones:"",
