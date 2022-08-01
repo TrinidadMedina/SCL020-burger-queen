@@ -62,27 +62,29 @@ export function RestaurantMenu() {
 
     return (
         <div className="w-screen flex flex-col">
-            {/* <p>{props}</p> */}
             <div className="bg-gray-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded w-24">
                 <Link to="/">Home</Link>
             </div>
+            <main className="w-2/5 self-center rounded shadow-lg">
             {unique.map((category) => (
-                <div className="w-2/5 self-center">
-                    <button className="accordion" onClick={handleClikCategory} key={category}>{category}</button>
-                    <div className="panel">
+                <div className="w-full self-center">
+                    <button className="text-lg cursor-pointer p-4 text-left w-full hover:bg-gray-300 after:content-['\02795'] after:float-right ml-1" onClick={handleClikCategory} key={category}>{category}</button>
+                    <div className="bg-white hidden overflow-hidden py-2 px-4 text-base">
                         {food.map((product) =>
                             product.category === category ?
-                                <div>
-                                    {/* {console.log(food)} */}
-                                    <input className="check" type="checkbox" onChange={() => { toggleProduct(product.name) }} checked={product.selected} ></input>
-                                    <span className="product-name">{product.name}</span>
-                                    <span>${product.price}</span>
+                                <div className="grid grid-cols-2 p-1" >
+                                    <div>
+                                        <input className="p-3 mx-2" type="checkbox" onChange={() => { toggleProduct(product.name) }} checked={product.selected} ></input>
+                                        <span className="">{product.name}</span>
+                                    </div>
+                                    <div className="justify-self-end">${product.price}</div>
                                 </div>
                                 : null
                         )}
                     </div>
                 </div>
             ))}
+            </main>
             <button className="bg-gray-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded w-24" onClick={handleSendOrder}>Enviar</button>
             <div>has sleccionado {JSON.stringify(menu.filter((product) => product.selected))}</div>
         </div>
