@@ -56,3 +56,54 @@ export const menu = [
     "selected": false
     }
 ]
+
+export const tables = [
+  {
+    "number": 1,
+    "active": false,
+    "checkInTime": "13:03",
+    "persons": 2,
+    "bill": 0,
+    "orders": []
+  },
+  {
+    "number": 2,
+    "active": false,
+    "checkInTime": "13:03",
+    "persons": 2,
+    "bill": 0,
+    "orders": []
+  },
+  {
+    "number": 3,
+    "active": false,
+    "checkInTime": "13:03",
+    "persons": 2,
+    "bill": 0,
+    "orders": []
+  },
+  {
+    "number": 4,
+    "active": false,
+    "checkInTime": "13:03",
+    "persons": 2,
+    "bill": 0,
+    "orders": []
+  },
+  {
+    "number": 5,
+    "active": false,
+    "checkInTime": "13:03",
+    "persons": 2,
+    "bill": 0,
+    "orders": []
+  },
+  {
+    "number": 6,
+    "active": false,
+    "checkInTime": "14:03",
+    "persons": 2,
+    "bill": 0,
+    "orders": []
+  }
+]

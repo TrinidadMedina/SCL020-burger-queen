@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from '../components/Table'
 import { TableInfo } from '../components/TableInfo'
-import tables from '../dataTable.json'
+import {tables} from '../data.jsx'
 import { Link } from 'react-router-dom'
 import Clock from '../components/Clock'
 import { Order } from '../components/Order'
@@ -12,10 +12,9 @@ import { RestMenu } from '../components/RestMenu'
 
 export const Diner = () => {
     const [isShown, setIsShown] = useState(false);
-    const [selectedTable, setSelectedTable] = useState({tables})
-    const [showMenu, setShowMenu] = useState(false);
+    const [selectedTable, setSelectedTable] = useState(tables)
     const [order, setOrder] = useState([]);
-    const orderCollectionRef = collection(db, "orders");
+    const [allTables, setAllTables] = useState(tables)
 
     // useEffect(() => {
     //     const getOrders = async () => {
@@ -39,10 +38,6 @@ export const Diner = () => {
         getOrders()
     }, [])
 
-    const showInfoTable = () =>{
-
-    }
-
     const closeTableInfo = (isShown) => {
         if (isShown)
             setIsShown(false)
@@ -50,12 +45,14 @@ export const Diner = () => {
 
     const activateTables = (number) => {
         setIsShown(true)
-        const newTables = [...selectedTable]
+        const newTables = [...allTables]
         const newTable = newTables.find((table) => table.number === number);
-        setSelectedTable({...newTable, active: true })
+        newTable.active=true;
+        setSelectedTable({...newTable})
+        setAllTables([...newTables])
     }
 
-    console.log("render")
+
     return (
         <>
             <div className=" w-full h-full">
@@ -74,11 +71,10 @@ export const Diner = () => {
                     </> 
                     :<>
                         <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 py-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-                            {Object.entries(tables).map((table) => 
-                                (table.map((item) => 
-                                <div onClick={()=>{activateTables(item.number)}}>
-                                <Table showInfoTable={showInfoTable} table={item} />
-                                </div>)))}
+                            {allTables.map((table) => 
+                                <div onClick={()=>{activateTables(table.number)}}>
+                                <Table table={table} />
+                                </div>)}
                         </div>
                         <div className='place-content-center p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>
                             Pendientes:
