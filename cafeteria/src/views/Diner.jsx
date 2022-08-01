@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Table } from './Table'
-import { TableInfo } from './TableInfo'
+import { Table } from '../components/Table'
+import { TableInfo } from '../components/TableInfo'
 import tables from '../dataTable.json'
 import { Link } from 'react-router-dom'
-import Clock from './Clock'
-import {Order} from './Order'
+import Clock from '../components/Clock'
+import {Order} from '../components/Order'
 
 export const Diner = () => {
     const [isShown, setIsShown] = useState(false);
