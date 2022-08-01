@@ -7,7 +7,7 @@ import Clock from '../components/Clock'
 import { Order } from '../components/Order'
 import { RestaurantMenu } from './RestaurantMenu'
 import { db } from '../firebase/config'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, query, onSnapshot, orderBy } from 'firebase/firestore'
 import { RestMenu } from '../components/RestMenu'
 
 export const Diner = () => {
@@ -17,14 +17,34 @@ export const Diner = () => {
     const [order, setOrder] = useState([]);
     const orderCollectionRef = collection(db, "orders");
 
+    // useEffect(() => {
+    //     const getOrders = async () => {
+    //         const data = await getDocs(orderCollectionRef);
+    //         console.log(data)
+    //         setOrder(data.docs.map((order) => ({ ...order.data() })))
+    //         console.log(order)
+    //     }
+    //     getOrders();
+    // }, [])
+
+    const callback = (data) => {
+        // console.log(data.docs.map((order) => { console.log(order); return { ...order.data() } }))
+        return setOrder(data.docs.map((caca) => { return ({ ...caca.data() }) }))
+        // return data.docs.map((order) => { setOrder(order.data()); return [{ ...order.data() }] })
+
+    }
+
     useEffect(() => {
         const getOrders = async () => {
-            const data = await getDocs(orderCollectionRef);
-            setOrder(data.docs.map((order) => ({ ...order.data() })))
-            console.log(order)
+            const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
+            onSnapshot(q, callback)
+
         }
-        getOrders();
+        getOrders()
+
+
     }, [])
+
 
     const showInfoTable = () => {
         setIsShown(true)
@@ -61,7 +81,7 @@ export const Diner = () => {
                     </div>
                 </nav>
                 {isShown ?
-                    <><TableInfo allOrders={order} openMenu={openMenu} activateTable={activateTables} closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} /> <RestMenu selectedTable={selectedTable} /> </> :
+                    <><TableInfo allOrders={order} openMenu={openMenu} activateTable={activateTables} closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} />  </> :
                     <><div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 py-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                         {Object.entries(tables).map((caca) => (caca.map((tableObj) => (<Table selectTable={selectTable} showInfoTable={showInfoTable} table={tableObj} />))))}
                     </div>
