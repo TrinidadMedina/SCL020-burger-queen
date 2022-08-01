@@ -17,7 +17,10 @@ export const Diner = () => {
 
 
     const callback = (data) => {
-        return setOrder(data.docs.map((caca) => { return ({ ...caca.data() }) }))
+
+        return setOrder(data.docs.map((caca) => {
+            return ({ ...caca.data() })
+        }))
     }
 
     useEffect(() => {
@@ -63,8 +66,12 @@ export const Diner = () => {
                                     <Table table={table} />
                                 </div>)}
                         </div>
-                        <div className='place-content-center p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>
-                            Pendientes: <Order allOrders={order} />
+                        <div className='flex place-content-center p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>
+                            Pendientes: {order.map((item) => (
+                                <Order order={item} />
+                            ))
+
+                            }
                         </div>
                     </>
                 }
