@@ -1,5 +1,5 @@
 import React from 'react'
-import { Cronometro } from './Cronometro'
+
 
 
 export function Order({ order }) {
