@@ -5,7 +5,7 @@ export const menu = [
     "category": "Cafés",
     "status": "always",
     "selected": false,
-    "quantity": 0
+    "quantity": 0,
   },
   {
     "name": "Moca",
