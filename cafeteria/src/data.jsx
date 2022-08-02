@@ -24,10 +24,11 @@ export const menu = [
     "quantity": 0
   },
   {
-    "name":"Brunch",
-    "price":9000,
-    "category":"Desayuno",
-    "status":"bf",
+
+    "name": "Brunch",
+    "price": 9000,
+    "category": "Desayuno",
+    "status": "bf",
     "selected": false,
     "quantity": 0
   },
@@ -49,20 +50,24 @@ export const menu = [
   },
   {
     "name": "Sandwich salmon",
-    "price":3500,
-    "category":"Sandwiches",
-    "status":"lunch",
+
+    "price": 3500,
+    "category": "Sandwiches",
+    "status": "lunch",
     "selected": false,
     "quantity": 0
   },
   {
-    "name":"Brownie",
-    "price":2500,
-    "category":"Pastelería",
-    "status":"always",
+
+    "name": "Brownie",
+    "price": 2500,
+    "category": "Pastelería",
+    "status": "always",
     "selected": false,
     "quantity": 0
-    }
+  }
+
+  
 ]
 
 export const tables = [

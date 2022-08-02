@@ -53,21 +53,24 @@ export const Diner = () => {
                     <div className="  bg-gray-500 hover:bg-blue-700 text-white font-bold  py-6 px-4 rounded">
                         <Link to="/">Home</Link>
                     </div>
-                    <Clock />
+                    <div className=" w-1/4 p-1/4 mr-20">
+                        <Clock />
+                    </div>
+
                 </nav>
                 {isShown ?
                     <>
                         <TableInfo allOrders={order} closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} />
                     </>
                     : <>
-                        <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 py-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+                        <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 p-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                             {allTables.map((table) =>
                                 <div onClick={() => { activateTables(table.number) }}>
                                     <Table table={table} />
                                 </div>)}
                         </div>
-                        <div className='flex place-content-center p-8 w-96 py-4 px-3 my-4 max-w-sm mx-auto bg-white shadow-lg rounded-lg '>
-                            Pendientes: {order.map((item) => (
+                        <div className='bg-white overflow-auto flex  h-2/5 p-8 w-8/12 py-4 px-3 my-4  mx-auto  shadow-lg rounded-lg '>
+                            {order.map((item) => (
                                 <Order order={item} />
                             ))
 
