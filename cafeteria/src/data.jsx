@@ -4,57 +4,65 @@ export const menu = [
     "price": 2000,
     "category": "Cafés",
     "status": "always",
-    "selected": false
+    "selected": false,
+    "quantity": 0
   },
   {
     "name": "Moca",
     "price": 2500,
     "category": "Cafés",
     "status": "always",
-    "selected": false
+    "selected": false,
+    "quantity": 0
   },
   {
     "name": "Tostadas con huevo",
     "price": 3000,
     "category": "Desayuno",
     "status": "bf",
-    "selected": false
+    "selected": false,
+    "quantity": 0
   },
   {
-    "name":"Brunch",
-    "price":9000,
-    "category":"Desayuno",
-    "status":"bf",
-    "selected": false
+    "name": "Brunch",
+    "price": 9000,
+    "category": "Desayuno",
+    "status": "bf",
+    "selected": false,
+    "quantity": 0
   },
   {
     "name": "Plato del día",
     "price": 6000,
     "category": "Almuerzo",
     "status": "lunch",
-    "selected": false
+    "selected": false,
+    "quantity": 0
   },
   {
     "name": "Sandwich vegano",
     "price": 4000,
     "category": "Sandwiches",
     "status": "lunch",
-    "selected": false
+    "selected": false,
+    "quantity": 0
   },
   {
     "name": "Sandwich salmon",
-    "price":3500,
-    "category":"Sandwiches",
-    "status":"lunch",
-    "selected": false
+    "price": 3500,
+    "category": "Sandwiches",
+    "status": "lunch",
+    "selected": false,
+    "quantity": 0
   },
   {
-    "name":"Brownie",
-    "price":2500,
-    "category":"Pastelería",
-    "status":"always",
-    "selected": false
-    }
+    "name": "Brownie",
+    "price": 2500,
+    "category": "Pastelería",
+    "status": "always",
+    "selected": false,
+    "quantity": 0
+  }
 ]
 
 export const tables = [
