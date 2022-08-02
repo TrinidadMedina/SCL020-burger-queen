@@ -4,9 +4,13 @@ import Clock from '../components/Clock'
 import { db } from '../firebase/config'
 import { collection, query, onSnapshot, orderBy } from 'firebase/firestore'
 import {Order} from '../components/Order'
+import { Cronometro } from '../components/Cronometro.jsx'
 
 
 export function Kitchen() {
+  const time = new Date();
+  console.log(time.getDate())
+  //time.setSeconds(time.getSeconds() - 600);
 
   const [orders,setOrders]=useState([])
 
@@ -36,6 +40,7 @@ export function Kitchen() {
         <Order order={order}/>
       ))} 
     </main>
+    <Cronometro expiryTimestamp={time} />
     </div>
   )
 }

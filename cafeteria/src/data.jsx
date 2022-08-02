@@ -24,6 +24,7 @@ export const menu = [
     "quantity": 0
   },
   {
+
     "name": "Brunch",
     "price": 9000,
     "category": "Desayuno",
@@ -49,6 +50,7 @@ export const menu = [
   },
   {
     "name": "Sandwich salmon",
+
     "price": 3500,
     "category": "Sandwiches",
     "status": "lunch",
@@ -56,6 +58,7 @@ export const menu = [
     "quantity": 0
   },
   {
+
     "name": "Brownie",
     "price": 2500,
     "category": "Pastelería",
@@ -63,6 +66,8 @@ export const menu = [
     "selected": false,
     "quantity": 0
   }
+
+  
 ]
 
 export const tables = [

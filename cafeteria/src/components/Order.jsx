@@ -1,7 +1,9 @@
 import React from 'react'
+import { Cronometro } from './Cronometro'
 
 
 export function Order({ order }) {
+
   // console.log(order)
   return (
     <div className="bg-gray-100 m-2 font-bold  text-xl" >
@@ -20,6 +22,7 @@ export function Order({ order }) {
         {/* <button className=' bg-gray-500 hover:bg-blue-700  place-content-center text-white font-bold py-2 px-4  rounded'>Delivered</button> */}
       </div>
     </div >
+
 
   )
 }
