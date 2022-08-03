@@ -51,7 +51,7 @@ export const Diner = () => {
             <div className=" w-full h-full">
                 <nav className=" p-3 w-full h-auto	  flex justify-between ">
                     <div className="  bg-gray-500 hover:bg-blue-700 text-white font-bold  py-6 px-4 rounded">
-                        <Link to="/">Home</Link>
+                        <Link to="/Home">Home</Link>
                     </div>
                     <div className=" w-1/4 p-1/4 mr-20">
                         <Clock />

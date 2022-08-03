@@ -29,7 +29,6 @@ export function RestaurantMenu() {
         const newMenu = [...food];
         const product = newMenu.find((product) => product.name === name);
         product.quantity>0?product.quantity -= 1:product.quantity;
-        
         setFood(newMenu);
     }
 
