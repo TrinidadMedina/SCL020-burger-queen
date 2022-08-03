@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
-export function Cronometro() {
+export function Cronometro({order}) {
   const [diff, setDiff] = useState(null)
   const [initial, setInitial] = useState(null)
+  const cronRef = useRef(null);
 
   const tick = () => {
     setDiff(new Date(+new Date() - initial)) 
   };
 
-  const start = () => { setInitial(+new Date())  } 
+  
+  const start = () => { setInitial(order.date.toDate())  }
 
+  useEffect(()=>{
+    start()
+  },[])
+  
   useEffect(() => {
     if (initial) {
       requestAnimationFrame(tick);
@@ -23,7 +29,7 @@ export function Cronometro() {
   }, [diff]);
 
   return (
-    <div onClick={start}>
+    <div>
       <h1>{timeFormat(diff)}</h1>
     </div>
   );
