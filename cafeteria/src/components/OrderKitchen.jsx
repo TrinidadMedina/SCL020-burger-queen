@@ -2,12 +2,12 @@ import React from 'react'
 import {Cronometro} from './Cronometro'
 
 export function OrderKitchen({ order }) {
+    
   return (
     <div className="bg-gray-100 flex flex-col m-4 shadow-lg">
-
       <header className='flex text-base font-bold justify-between m-3 mb-2'>
         <div className="text-center border-8 border-x-gray-100 h-10 w-10 bg-white shadow-lg rounded-lg">{order.table}</div>
-        <Cronometro />
+        <Cronometro order={order}/>
       </header>
       <main className="flex flex-col">
         <div className=" w-60 flex flex-col  h-48  rounded bg-white overflow-auto">
