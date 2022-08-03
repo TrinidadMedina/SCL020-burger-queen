@@ -2,57 +2,35 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 
-export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders }) => {
-    const { number, active, checkInTime } = selectedTable;
+export const TableInfo = ({ isShown, closeTableInfo, selectedTable }) => {
+    const { number, active, checkInTime, orders } = selectedTable;
 
-    const getAllProductsSelTable = (array) => {
-        const allProductsOrderTable = []
-        const selectedTableOrders = array.filter((order) => { return order.table == number })
-        const selectedTableProducts = selectedTableOrders.filter((order1) => { return order1.products })
-        const comandas = selectedTableProducts.map((order2) => { return order2 })
-        comandas.forEach((item) => { allProductsOrderTable.push(...item.products) })
-        return allProductsOrderTable // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
-    }
-    const getTotalBill = (array) => {
-        const prices = [];
-        const allProductsOrderTable = getAllProductsSelTable(array)
-        allProductsOrderTable.forEach((pro) => { prices.push(pro.price * pro.quantity) })
-        if (prices.length !== 0) {
-            const prices2 = prices.reduce((a, b) => { return a + b })
-            return Math.round(prices2)
-        } else {
-            return null
+    const getProducts = () => {
+        const products = [];
+        for (let i = 0; i < orders.length; i++) {
+            products.push(...orders[i].products)
         }
+        return products   // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
     }
-    const productsByCategory = (array) => { // REFACTORIZAR - vuelta estupida (?)
-        const allProductsOrderTable = getAllProductsSelTable(array) // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
-        const productsByCategoryTable = {}
-        const sorted = []                   // [[{},{},{}],[{}] ]
-        const categories = Array.from(new Set(allProductsOrderTable.map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
-        categories.forEach((category) => {
-            sorted.push(allProductsOrderTable.filter((product) => product.category === category))
-        })
-        sorted.forEach((group, i) => {
-            productsByCategoryTable[group[0].category] = group
-        })
-        return productsByCategoryTable  // {almuerzo:[{},{}],desayuno:[{}]}
+    const getBill = () => {
+        const prices = getProducts().map((pro) => { return pro.price * pro.quantity })
+        const total = prices.reduce((a, b) => { return a + b })
+        // console.log(Math.round(total))
+        return total
     }
-    // console.log("FILTERPRODCATEGORY", productsByCategory(allOrders))
-    // console.log(Object.entries(productsByCategory(allOrders)).forEach((item) => { console.log(item) }))
-    function formatAmounts(x) {
-        if (getAllProductsSelTable(allOrders).length > 0) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    const categories = Array.from(new Set(getProducts().map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
+
+    function formatAmounts(price) {
+        if (orders) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         } else {
             return null
         }
     }
 
     if (isShown) {
-        allOrders.forEach((item) => {
-            let productsTable = [];
-            // console.log(item.products)
-            item.number == selectedTable.number ? productsTable.push(item.products) : null
-        })
+
         return (
             <section className='place-content-center border-8 border-x-gray-100  flex flex-col w-2/3 p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
                 <div className='place-content-center justify-between flex flex-row-reverse'>
@@ -62,27 +40,36 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders })
                     </div>
                 </div>
                 <article className="flex">
-                    <div> {((Object.entries(productsByCategory(allOrders))).map((group) => {
-                        return (
-                            <div className=" ">
-                                <p className=' font-bold'> {group[0]}</p>
-                                <ul> {group[1].map((product) => {
-                                    return (
+                    {categories.map((category) => (
+                        <div className=" ">
+                            <p className=' font-bold'> {category}</p>
+                            <ul>
+                                {getProducts().map((product) => (
+                                    category == product.category ?
                                         <div className=' grid grid-cols-4 text-base '>
                                             <li>-{product.name}</li>
                                             <li className=' text-center'>{product.quantity}</li>
                                             <li className='text-right'>${formatAmounts(product.price)}</li>
                                             <li className='text-right'> ${formatAmounts(product.price * product.quantity)}</li>
-                                        </div>)
-                                })} </ul>
-                            </div>)
-                    }))}{getAllProductsSelTable(allOrders).length > 0 &&   /* para que no aparezca la lista Agregar condición si hay productos && */
+                                        </div>
+                                        : null
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                    {orders.length > 0 &&   /* para que no aparezca la lista Agregar condición si hay productos && */
                         <ul className=' '>
-                            <li className='mt-4 grid grid-cols-2 border-t-2 border-zinc-900 '>Sub-Total:  <p className='text-right'>${formatAmounts(getTotalBill(allOrders))} </p></li>
-                            <li className='  grid grid-cols-2  '>Propina:<p className='text-right'>${formatAmounts(getTotalBill(allOrders) * 0.1)} </p> </li>
-                            <li className=' font-bold grid grid-cols-2   '>Total:<p className='text-right'>${formatAmounts(Math.floor((getTotalBill(allOrders) * 1.1)))} </p> </li>
-                        </ul>}
-                    </div>
+                            <li className='mt-4 grid grid-cols-2 border-t-2 border-zinc-900 '>Sub-Total:
+                                <p className='text-right'>${formatAmounts(getBill())} </p>
+                            </li>
+                            <li className='  grid grid-cols-2  '>Propina:
+                                <p className='text-right'>${formatAmounts(getBill() * 0.1)} </p>
+                            </li>
+                            <li className=' font-bold grid grid-cols-2   '>Total:
+                                <p className='text-right'>${formatAmounts(Math.floor((getBill() * 1.1)))} </p>
+                            </li>
+                        </ul>
+                    }
                     <footer className='flex  h-1/2 w-6/12 flex-row-reverse mt-8 justify-around p-5'>
                         {active ?
                             <button className=' bg-gray-500  text-white font-bold py-4 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> CheckOut #{number}</button> :
