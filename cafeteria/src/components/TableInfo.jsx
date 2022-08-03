@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 
-export const TableInfo = ({ isShown, closeTableInfo, selectedTable }) => {
+export const TableInfo = ({ isShown, closeTableInfo, selectedTable, handleReset }) => {
     const { number, active, checkInTime, orders } = selectedTable;
+
 
     const getProducts = () => {
         const products = [];
@@ -72,7 +73,7 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable }) => {
                     }
                     <footer className='flex  h-1/2 w-6/12 flex-row-reverse mt-8 justify-around p-5'>
                         {active ?
-                            <button className=' bg-gray-500  text-white font-bold py-4 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> CheckOut #{number}</button> :
+                            <button className=' bg-gray-500  text-white font-bold py-4 px-4  rounded' type="button" onClick={() => { handleReset(number) }}> CheckOut #{number}</button> :
                             <button className=' bg-gray-400 text-white font-bold py-4 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> CheckIn #{number}</button>}
                         <div className=' bg-gray-500 hover:bg-blue-700  flex justify-center text-white mr-4 text-center font-bold py-4 px-4  rounded'>
                             <Link to={`/RestaurantMenu/${number}`}>Add Products</Link>
