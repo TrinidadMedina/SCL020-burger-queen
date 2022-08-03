@@ -7,6 +7,7 @@ export function Cronometro() {
   const tick = () => {
     setDiff(new Date(+new Date() - initial)) 
   };
+
   const start = () => { setInitial(+new Date())  } 
 
   useEffect(() => {
@@ -22,23 +23,21 @@ export function Cronometro() {
   }, [diff]);
 
   return (
-    <div className="App" onClick={start}>
-      <h1 className="timer">{timeFormat(diff)}</h1>
+    <div onClick={start}>
+      <h1>{timeFormat(diff)}</h1>
     </div>
   );
 }
 
 const timeFormat = (date) => {
-  if (!date) return "00:00:00";
+  if (!date) return "00:00";
 
   let mm = date.getUTCMinutes();
   let ss = date.getSeconds();
-  let cm = Math.round(date.getMilliseconds() / 10);
 
   mm = mm < 10 ? "0"+mm :  mm;
   ss = ss < 10 ? "0"+ss :  ss;
-  cm = cm < 10 ? "0"+cm:  cm;
 
-  return `${mm}:${ss}:${cm}`;
+  return `${mm}:${ss}`;
 };
 
