@@ -31,7 +31,6 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, handleReset 
     }
 
     if (isShown) {
-
         return (
             <section className='place-content-center border-8 border-x-gray-100  flex flex-col w-2/3 p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
                 <div className='place-content-center justify-between flex flex-row-reverse'>
