@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import Clock from '../components/Clock'
 import { Order } from '../components/Order'
 import { db } from '../firebase/config'
-import { collection, query, onSnapshot, orderBy } from 'firebase/firestore'
+import { collection, query, onSnapshot, orderBy, doc, updateDoc, deleteDoc, getDocs } from 'firebase/firestore'
 
 export const Diner = () => {
     const [isShown, setIsShown] = useState(false); // guarda booleano que controla mostrar tableInfo
@@ -14,6 +14,19 @@ export const Diner = () => {
     const [orders, setOrders] = useState([]); //guarda todas las ordenes del onsnapshot
     const [allTables, setAllTables] = useState(tables) //guarda todas las tables con su estado
 
+
+    const resetTable = async (number) => {
+        const querySnapshot = await getDocs(collection(db, "orders"));
+        const snapshot = [];
+        querySnapshot.forEach((doc) => {
+            return snapshot.push({ ...doc.data(), idFire: doc.id })// console.log(`${doc.id} => ${doc.data()}`);
+        });
+        const orders = snapshot.filter((order) => { return order.table == number })
+        orders.forEach(async (order) => {
+            console.log(order.idFire)
+            await deleteDoc(doc(db, "orders", order.idFire));
+        })
+    }
 
     const callback = (data) => {
 
@@ -46,6 +59,16 @@ export const Diner = () => {
 
     }
 
+    const handleReset = (number) => {
+        setIsShown(false);
+        const newTables = [...allTables];
+        const selected = newTables.find((table) => table.number === number);
+        selected.active = false;
+        // selected.orders = [];
+        setSelectedTable({ ...selected })
+        resetTable(number)
+    }
+
 
     return (
         <>
@@ -60,7 +83,7 @@ export const Diner = () => {
                 </nav>
                 {isShown ?
                     <>
-                        <TableInfo closeTableInfo={closeTableInfo} isShown={isShown} selectedTable={selectedTable} />
+                        <TableInfo closeTableInfo={closeTableInfo} handleReset={handleReset} isShown={isShown} selectedTable={selectedTable} />
                     </>
                     : <>
                         <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 p-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
