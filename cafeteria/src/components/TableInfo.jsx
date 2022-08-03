@@ -24,10 +24,10 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders })
             return null
         }
     }
-    const filterProductsByCategory = (array) => { // REFACTORIZAR - vuelta estupida
+    const productsByCategory = (array) => { // REFACTORIZAR - vuelta estupida
         const allProductsOrderTable = getAllProductsSelTable(array) // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
         const productsByCategoryTable = {}
-        const sorted = [] // [[{},{},{}],[{}] ]
+        const sorted = []                   // [[{},{},{}],[{}] ]
         const categories = Array.from(new Set(allProductsOrderTable.map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
         categories.forEach((category) => {
             sorted.push(allProductsOrderTable.filter((product) => product.category === category))
@@ -35,11 +35,14 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders })
         sorted.forEach((group, i) => {
             productsByCategoryTable[group[0].category] = group
         })
-        return productsByCategoryTable
+        return productsByCategoryTable  // {almuerzo:[{},{}],desayuno:[{}]}
     }
-    console.log("FILTERPRODCATEGORY", filterProductsByCategory(allOrders)) // {almuerzo:[{},{}],desayuno:[{}]}
+    // console.log("FILTERPRODCATEGORY", productsByCategory(allOrders))
 
+    // console.log(Object.entries(productsByCategory(allOrders)).forEach((item) => { console.log(item) }))
+    const prueba = () => {
 
+    }
 
     function formatAmounts(x) {
         if (getAllProductsSelTable(allOrders).length > 0) {
@@ -57,6 +60,16 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders })
         })
         return (
             <section className='place-content-center border-8 border-x-gray-100  flex flex-col w-2/3 p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
+                <div> {((Object.entries(productsByCategory(allOrders))).map((group, i) => {
+                    return (<>
+                        <p className='font-bold'> {group[0]}</p>
+                        <ul> {group[1].map((product) => {
+                            return (<>
+                                <li>-{product.name}</li><li>{product.quantity}</li><li className='text-right'>U${formatAmounts(product.price)}</li><li className='text-right'> T${formatAmounts(product.price * product.quantity)}</li>
+                            </>)
+                        })} </ul>
+                    </>)
+                }))}</div>
                 <div className='place-content-center justify-between flex flex-row-reverse'>
                     <button className=' bg-gray-500   text-white font-bold py-1 px-2  rounded' type="button" onClick={() => { closeTableInfo(isShown) }}> X </button>
                     <div className='font-bold text-xl '>Table {number}
