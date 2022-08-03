@@ -10,7 +10,7 @@ export function Order({ order }) {
   return (
     <div className="bg-gray-100 m-2 font-bold  text-xl" >
       <header className='flex text-base justify-space-between p-4'>
-        Table:{order.table} <br /> #{order.orderId.slice(8, 12)}
+        Table:{order.table} <br /> #{order.orderId}
         <button className=' bg-gray-500 hover:bg-blue-700  place-content-center text-white font-bold py-2 px-4 m-4 rounded'>Delivered</button>
 
       </header>

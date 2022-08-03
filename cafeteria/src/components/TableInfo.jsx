@@ -4,49 +4,18 @@ import { Link } from 'react-router-dom';
 
 export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders }) => {
     const { number, active, checkInTime } = selectedTable;
-    console.log(selectedTable)
 
-    //refactorizar - hacer función getAllProducts Table. 
     const getAllProductsSelTable = (array) => {
         const allProductsOrderTable = []
         const selectedTableOrders = array.filter((order) => { return order.table == number })
         const selectedTableProducts = selectedTableOrders.filter((order1) => { return order1.products })
         const comandas = selectedTableProducts.map((order2) => { return order2 })
-        const caca = comandas.forEach((item) => { allProductsOrderTable.push(...item.products) })
-        console.log(allProductsOrderTable)
-        return allProductsOrderTable
+        comandas.forEach((item) => { allProductsOrderTable.push(...item.products) })
+        return allProductsOrderTable // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
     }
-    console.log(getAllProductsSelTable(allOrders))
-
-    const filterProductsByCategory = (array, stringCategory) => {
-        const allProductsOrderTable = []
-        const selectedTableOrders = array.filter((order) => { return order.table == number })
-        const selectedTableProducts = selectedTableOrders.filter((order1) => { return order1.products })
-        const comandas = selectedTableProducts.map((order2) => { return order2 })
-        const caca = comandas.forEach((item) => { allProductsOrderTable.push(...item.products) })
-        console.log(allProductsOrderTable)
-        // const productsByCategoryTable = {}
-        // const allProdArrObj = order.products.map((item) => { return item }) // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
-        // const categories = Array.from(new Set(allProdArrObj.map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
-        // allProdArrObj.forEach((product, i) => {
-        //     categories.forEach((category) => {
-        //         if (product.category == category) {
-        //             productsByCategoryTable[category] = product
-        //         }
-        //     })
-        // })
-    }
-    console.log("AQUI", filterProductsByCategory(allOrders, "Pastelería"))
-
-
-
     const getTotalBill = (array) => {
         const prices = [];
-        const allProductsOrderTable = []
-        const selectedTableOrders = array.filter((order) => { return order.table == number })
-        const selectedTableProducts = selectedTableOrders.filter((order1) => { return order1.products })
-        const comandas = selectedTableProducts.map((order2) => { return order2 })
-        const caca = comandas.forEach((item) => { allProductsOrderTable.push(...item.products) })
+        const allProductsOrderTable = getAllProductsSelTable(array)
         allProductsOrderTable.forEach((pro) => { prices.push(pro.price * pro.quantity) })
         if (prices.length !== 0) {
             const prices2 = prices.reduce((a, b) => { return a + b })
@@ -55,22 +24,37 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders })
             return null
         }
     }
-    // getTotalBill(allOrders)
+    const filterProductsByCategory = (array) => { // REFACTORIZAR - vuelta estupida
+        const allProductsOrderTable = getAllProductsSelTable(array) // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
+        const productsByCategoryTable = {}
+        const sorted = [] // [[{},{},{}],[{}] ]
+        const categories = Array.from(new Set(allProductsOrderTable.map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
+        categories.forEach((category) => {
+            sorted.push(allProductsOrderTable.filter((product) => product.category === category))
+        })
+        sorted.forEach((group, i) => {
+            productsByCategoryTable[group[0].category] = group
+        })
+        return productsByCategoryTable
+    }
+    console.log("FILTERPRODCATEGORY", filterProductsByCategory(allOrders)) // {almuerzo:[{},{}],desayuno:[{}]}
+
+
 
     function formatAmounts(x) {
-        // return x;
-
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-
+        if (getAllProductsSelTable(allOrders).length > 0) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        } else {
+            return null
+        }
     }
 
     if (isShown) {
-        console.log(allOrders.forEach((item) => {
+        allOrders.forEach((item) => {
             let productsTable = [];
-            console.log(item.products)
+            // console.log(item.products)
             item.number == selectedTable.number ? productsTable.push(item.products) : null
-        }))
+        })
         return (
             <section className='place-content-center border-8 border-x-gray-100  flex flex-col w-2/3 p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
                 <div className='place-content-center justify-between flex flex-row-reverse'>
@@ -88,7 +72,7 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, allOrders })
                                 </>)
                             })}</ul>
                         })}
-                        {     /* para que no aparezca la lista Agregar condición si hay productos && */
+                        {getAllProductsSelTable(allOrders).length > 0 &&   /* para que no aparezca la lista Agregar condición si hay productos && */
                             <>
                                 <li className='  border-t-4 grid grid-cols-3 '>Sub-Total:<span></span> <p className='text-right'>${formatAmounts(getTotalBill(allOrders))} </p>  </li>
                                 <li className='  grid grid-cols-3 '>Propina:<span></span><p className='text-right'>${formatAmounts(getTotalBill(allOrders) * 0.1)} </p> </li>
