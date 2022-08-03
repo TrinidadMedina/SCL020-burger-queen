@@ -6,35 +6,42 @@ import { Timestamp, addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase/config.js';
 import { useEffect } from 'react';
 import { ButtonHome } from '../components/ButtonHome.jsx'
+import flecha from '../flecha.png';
 //actualizar arreglo segun horario
-//Enviar orden a diner y a kitchen
 //setear arreglo menu selected:false - setear checkbox
 
 export function RestaurantMenu() {
-
     const { tableNumber } = useParams();
     console.log(tableNumber)
 
     const [food, setFood] = useState(menu);
 
     const unique = Array.from(new Set(menu.map(item => item.category)));
-    const toggleProduct = (name) => {
+
+    const handlePlus = (name) =>{
         const newMenu = [...food];
         const product = newMenu.find((product) => product.name === name);
-        product.selected = !product.selected;
+        product.quantity += 1;
         setFood(newMenu);
-    };
+    }
+
+    const handleRest = (name) =>{
+        const newMenu = [...food];
+        const product = newMenu.find((product) => product.name === name);
+        product.quantity>0?product.quantity -= 1:product.quantity;
+        setFood(newMenu);
+    }
 
     const handleSendOrder = () => {//NO ENVIAR SI ESTA VACIO
-        // counter++
         const confirmAlert = confirm('¿Enviar a cocina?');
         if (confirmAlert === true) {
-            const products = menu.filter((product) => product.selected);
+            const products = menu.filter((product) => product.quantity>0);
             addDoc(collection(db, 'orders'), {
                 date: Timestamp.fromDate(new Date()),
                 table: tableNumber,
                 products,
-                orderId: tableNumber + "-" + uuidv4()
+                orderId: tableNumber + "-" + uuidv4(),
+                estado: "preparando"
                 //meserx: "",
                 //observaciones:"",
             })
@@ -52,21 +59,27 @@ export function RestaurantMenu() {
     }
 
     return (
-        <div className="w-screen flex flex-col">
+        <div className="w-screen h-screen flex flex-col bg-white">
             <ButtonHome />
-            <main className="w-2/5 self-center rounded shadow-lg">
+            <main className="w-3/5 shadow-lg flex flex-col self-center">
                 {unique.map((category) => (
-                    <div className="w-full self-center">
-                        <button className="text-lg cursor-pointer p-4 text-left w-full hover:bg-gray-300 after:content-['\02795'] after:float-right ml-1" onClick={handleClikCategory} key={category}>{category}</button>
+                    <div className="w-full">
+                        <button className="flex bg-gray-200 text-lg cursor-pointer p-4 text-left w-full hover:bg-gray-300 justify-between" onClick={handleClikCategory} key={category}>
+                            <p className="">{category}</p>
+                            <img src={flecha} className="w-4"></img>
+                        </button>
+                        
                         <div className="bg-white hidden overflow-hidden py-2 px-4 text-base">
                             {food.map((product) =>
                                 product.category === category ?
-                                    <div className="grid grid-cols-2 p-1" >
-                                        <div>
-                                            <input className="p-3 mx-2" type="checkbox" onChange={() => { toggleProduct(product.name) }} checked={product.selected} ></input>
-                                            <span className="">{product.name}</span>
+                                    <div className="grid grid-cols-3 gap-4 p-1" >
+                                        <span className="w-60 self-center">{product.name}</span>
+                                        <span className="w-10 self-center">${product.price}</span>
+                                        <div className="justify-self-end"> 
+                                            <button className="px-2 m-2 w-8 h-8 border-2 rounded-full bg-gray-300 font-bold hover:bg-blue-700" onClick={()=>{handleRest(product.name)}}>-</button>
+                                            <label className="p-2">{product.quantity}</label>
+                                            <button className="px-2 m-2 w-8 h-8 border-2 rounded-full bg-gray-300 font-bold hover:bg-blue-700" onClick={()=>{handlePlus(product.name)}}>+</button>
                                         </div>
-                                        <div className="justify-self-end">${product.price}</div>
                                     </div>
                                     : null
                             )}
@@ -74,10 +87,11 @@ export function RestaurantMenu() {
                     </div>
                 ))}
             </main>
-            <button className="bg-gray-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded w-24" onClick={handleSendOrder}>
+            <button className=" content-center bg-gray-500 hover:bg-blue-700 text-white font-bold rounded w-fit p-3 m-4" onClick={handleSendOrder}>
                 <Link to="/Diner">Enviar</Link>
             </button>
-            <div>has sleccionado {JSON.stringify(menu.filter((product) => product.selected))}</div>
+            <div>has sleccionado {JSON.stringify(menu.filter((product) => product.quantity>0))}
+            </div>
         </div>
     )
 }
