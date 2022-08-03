@@ -56,7 +56,6 @@ export const Diner = () => {
                     <div className=" w-1/4 p-1/4 mr-20">
                         <Clock />
                     </div>
-
                 </nav>
                 {isShown ?
                     <>
@@ -73,7 +72,6 @@ export const Diner = () => {
                             {order.map((item) => (
                                 <Order order={item} />
                             ))
-
                             }
                         </div>
                     </>

@@ -4,7 +4,9 @@ import React from 'react'
 
 export function Order({ order }) {
 
-  // console.log(order)
+
+
+
   return (
     <div className="bg-gray-100 m-2 font-bold  text-xl" >
       <header className='flex text-base justify-space-between p-4'>
