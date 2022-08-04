@@ -12,8 +12,13 @@ import { ButtonHome } from '../components/ButtonHome'
 export const Diner = () => {
     const [isShown, setIsShown] = useState(false); // guarda booleano que controla mostrar tableInfo
     const [selectedTable, setSelectedTable] = useState(tables) // guarda table clickeada  para uso tableinfo
-    const [orders, setOrders] = useState([]); //guarda todas las ordenes del onsnapshot
+    const [orders, setOrders] = useState([]); //guarda todas las ordenes del onsnapshot, para render en pendientes y sumar la selected table
     const [allTables, setAllTables] = useState(tables) //guarda todas las tables con su estado
+
+    useEffect(() => {
+
+        console.log("caca")
+    }, [orders])
 
     const callback = (data) => {
         return setOrders(data.docs.map((order) => {
@@ -36,17 +41,28 @@ export const Diner = () => {
         const newTables = [...allTables]
         const newTable = newTables.find((table) => table.number === number);
         newTable.active = true;
-        const selectedTableOrders = orders.filter((order) => { return order.table == number }) // [{},{}] arreglo obj ordenes de mesa select
+        const selectedTableOrders = orders.filter((order) => { return order.table == number && order.estado !== "Cerrada" }) // [{},{}] arreglo obj ordenes de mesa select
+        console.log(selectedTableOrders)
         setSelectedTable({ ...newTable, orders: selectedTableOrders })
         setAllTables([...newTables]) //pa q se ponga verde
     }
-    const handleReset = (number) => {
+    const handleReset = async (number, ordersTable) => {
         setIsShown(false);
         const newTables = [...allTables];
         const selected = newTables.find((table) => table.number === number);
         selected.active = false;
-        setSelectedTable({ ...selected })
-        resetTable(number)
+        const ordersFirestore = await getDocs(collection(db, "orders"));
+        ordersTable.forEach((order) => {
+            order.estado = "Cerrada"
+            ordersFirestore.forEach((item) => {
+                if (item.data().orderId == order.orderId) {
+                    updateDoc(doc(db, "orders", item.id), {
+                        estado: order.estado
+                    })
+                }
+            })
+        })
+        // setSelectedTable({ ...selected })
     }
 
     const handleDelivery = async (id) => {
@@ -54,7 +70,7 @@ export const Diner = () => {
         if (confirmAlert === true) {
             const newOrders = [...orders];
             const order = newOrders.find((order) => order.orderId === id);
-            order.estado = "Cerrada"
+            order.estado = "Entregada"
             const allOrders = await getDocs(collection(db, "orders"));
             allOrders.forEach((item) => {
                 if (item.data().orderId == id) {
@@ -82,15 +98,15 @@ export const Diner = () => {
                     : <>
                         <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 p-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                             {allTables.map((table) =>
+
                                 <div onClick={() => { activateTables(table.number) }}>
                                     <Table table={table} />
                                 </div>)}
                         </div>
                         <div className='bg-gray-300 overflow-auto flex  h-2/6 p-8 w-10/12 py-4 px-3 my-4  mx-auto  shadow-lg rounded-lg '>
                             {orders.map((order) => (
-                                order.estado !== "Cerrada" &&
-                                <Order handleDelivery={handleDelivery} order={order} />
-                                // <OrderKitchen order={item} />
+                                order.estado !== "Entregada" && order.estado !== "Cerrada" ?
+                                    <Order handleDelivery={handleDelivery} order={order} /> : null
                             ))
                             }
                         </div>
