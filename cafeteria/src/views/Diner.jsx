@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Table } from '../components/Table'
 import { TableInfo } from '../components/TableInfo'
 import { tables } from '../data.jsx'
-import { Link } from 'react-router-dom'
 import Clock from '../components/Clock'
 import { Order } from '../components/Order'
 import { db } from '../firebase/config'
+// import { OrderKitchen } from '../components/OrderKitchen'
 import { collection, query, onSnapshot, orderBy, doc, updateDoc, deleteDoc, getDocs } from 'firebase/firestore'
+import { ButtonHome } from '../components/ButtonHome'
 
 export const Diner = () => {
     const [isShown, setIsShown] = useState(false); // guarda booleano que controla mostrar tableInfo
@@ -14,27 +15,11 @@ export const Diner = () => {
     const [orders, setOrders] = useState([]); //guarda todas las ordenes del onsnapshot
     const [allTables, setAllTables] = useState(tables) //guarda todas las tables con su estado
 
-
-    const resetTable = async (number) => {
-        const querySnapshot = await getDocs(collection(db, "orders"));
-        const snapshot = [];
-        querySnapshot.forEach((doc) => {
-            return snapshot.push({ ...doc.data(), idFire: doc.id })// console.log(`${doc.id} => ${doc.data()}`);
-        });
-        const orders = snapshot.filter((order) => { return order.table == number })
-        orders.forEach(async (order) => {
-            console.log(order.idFire)
-            await deleteDoc(doc(db, "orders", order.idFire));
-        })
-    }
-
     const callback = (data) => {
-
-        return setOrders(data.docs.map((caca) => {
-            return ({ ...caca.data() })
+        return setOrders(data.docs.map((order) => {
+            return ({ ...order.data() })
         }))
     }
-
     useEffect(() => {
         const getOrders = async () => {
             const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
@@ -42,12 +27,10 @@ export const Diner = () => {
         }
         getOrders()
     }, [])
-
     const closeTableInfo = (isShown) => {
         if (isShown)
             setIsShown(false)
     }
-
     const activateTables = (number) => {
         setIsShown(true)
         const newTables = [...allTables]
@@ -56,30 +39,41 @@ export const Diner = () => {
         const selectedTableOrders = orders.filter((order) => { return order.table == number }) // [{},{}] arreglo obj ordenes de mesa select
         setSelectedTable({ ...newTable, orders: selectedTableOrders })
         setAllTables([...newTables]) //pa q se ponga verde
-
     }
-
     const handleReset = (number) => {
         setIsShown(false);
         const newTables = [...allTables];
         const selected = newTables.find((table) => table.number === number);
         selected.active = false;
-        // selected.orders = [];
         setSelectedTable({ ...selected })
         resetTable(number)
     }
 
-
+    const handleDelivery = async (id) => {
+        const confirmAlert = confirm('¿Entregado?');
+        if (confirmAlert === true) {
+            const newOrders = [...orders];
+            const order = newOrders.find((order) => order.orderId === id);
+            order.estado = "Cerrada"
+            const allOrders = await getDocs(collection(db, "orders"));
+            allOrders.forEach((item) => {
+                if (item.data().orderId == id) {
+                    updateDoc(doc(db, "orders", item.id), {
+                        estado: order.estado
+                    })
+                }
+            })
+            setOrders(newOrders)
+        }
+    }
     return (
         <>
-            <div className=" w-full h-full">
-                <nav className=" p-3 w-full h-auto	  flex justify-between ">
-                    <div className="  bg-gray-500 hover:bg-blue-700 text-white font-bold  py-6 px-4 rounded">
-                        <Link to="/Home">Home</Link>
-                    </div>
-                    <div className=" w-1/4 p-1/4 mr-20">
+            <div className="w-full h-full">
+                <nav className="bg-zinc-50">
+                    <header className="flex justify-between">
+                        <ButtonHome />
                         <Clock />
-                    </div>
+                    </header>
                 </nav>
                 {isShown ?
                     <>
@@ -92,9 +86,11 @@ export const Diner = () => {
                                     <Table table={table} />
                                 </div>)}
                         </div>
-                        <div className='bg-white overflow-auto flex  h-2/5 p-8 w-8/12 py-4 px-3 my-4  mx-auto  shadow-lg rounded-lg '>
-                            {orders.map((item) => (
-                                <Order order={item} />
+                        <div className='bg-gray-300 overflow-auto flex  h-2/6 p-8 w-10/12 py-4 px-3 my-4  mx-auto  shadow-lg rounded-lg '>
+                            {orders.map((order) => (
+                                order.estado !== "Cerrada" &&
+                                <Order handleDelivery={handleDelivery} order={order} />
+                                // <OrderKitchen order={item} />
                             ))
                             }
                         </div>
