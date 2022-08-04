@@ -1,6 +1,12 @@
 import React from 'react'
 import { Cronometro } from './Cronometro'
-export function Order({ order }) {
+export function Order({ order, handleDelivery }) {
+
+  const handleClickDelivery = () => {
+    if (order.estado == "Ready") {
+      handleDelivery(order.orderId)
+    }
+  }
 
   return (
     <div className="bg-gray-100 h-20 font-bold shadow-lg text-xl rounded  m-2" > {/*bg-gray-100*/}
@@ -14,9 +20,12 @@ export function Order({ order }) {
           <li className="flex justify-between font-normal list-none  px-2">
             <p>- {product.name}</p>
             <p>{product.quantity}</p>
+
           </li>
         ))}
-        <button className=' bg-gray-400 hover:bg-blue-700  text-white font-bold m-4 p-2  rounded'>Delivered</button>
+
+
+        <button onClick={handleClickDelivery} className=' bg-gray-400 hover:bg-blue-700  text-white font-bold m-4 p-2  rounded'>{order.estado}</button>
         {/* <button className=' bg-gray-500 hover:bg-blue-700  place-content-center text-white font-bold py-2 px-4  rounded'>Delivered</button> */}
       </div>
 

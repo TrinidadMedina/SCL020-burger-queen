@@ -15,21 +15,9 @@ export const Diner = () => {
     const [orders, setOrders] = useState([]); //guarda todas las ordenes del onsnapshot
     const [allTables, setAllTables] = useState(tables) //guarda todas las tables con su estado
 
-    const resetTable = async (number) => {
-        const querySnapshot = await getDocs(collection(db, "orders"));
-        const snapshot = [];
-        querySnapshot.forEach((doc) => {
-            return snapshot.push({ ...doc.data(), idFire: doc.id })// console.log(`${doc.id} => ${doc.data()}`);
-        });
-        const orders = snapshot.filter((order) => { return order.table == number })
-        orders.forEach(async (order) => {
-            console.log(order.idFire)
-            await deleteDoc(doc(db, "orders", order.idFire));
-        })
-    }
     const callback = (data) => {
-        return setOrders(data.docs.map((caca) => {
-            return ({ ...caca.data() })
+        return setOrders(data.docs.map((order) => {
+            return ({ ...order.data() })
         }))
     }
     useEffect(() => {
@@ -60,6 +48,24 @@ export const Diner = () => {
         setSelectedTable({ ...selected })
         resetTable(number)
     }
+
+    const handleDelivery = async (id) => {
+        const confirmAlert = confirm('¿Entregado?');
+        if (confirmAlert === true) {
+            const newOrders = [...orders];
+            const order = newOrders.find((order) => order.orderId === id);
+            order.estado = "Cerrada"
+            const allOrders = await getDocs(collection(db, "orders"));
+            allOrders.forEach((item) => {
+                if (item.data().orderId == id) {
+                    updateDoc(doc(db, "orders", item.id), {
+                        estado: order.estado
+                    })
+                }
+            })
+            setOrders(newOrders)
+        }
+    }
     return (
         <>
             <div className="w-full h-full">
@@ -81,8 +87,9 @@ export const Diner = () => {
                                 </div>)}
                         </div>
                         <div className='bg-gray-300 overflow-auto flex  h-2/6 p-8 w-10/12 py-4 px-3 my-4  mx-auto  shadow-lg rounded-lg '>
-                            {orders.map((item) => (
-                                <Order order={item} />
+                            {orders.map((order) => (
+                                order.estado !== "Cerrada" &&
+                                <Order handleDelivery={handleDelivery} order={order} />
                                 // <OrderKitchen order={item} />
                             ))
                             }
