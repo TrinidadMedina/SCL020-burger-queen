@@ -1,23 +1,25 @@
 import React from 'react'
-
+import { Cronometro } from './Cronometro'
 export function Order({ order }) {
 
   return (
-    <div className="bg-gray-100 m-2 font-bold  text-xl" >
-      <header className='flex text-base justify-space-between p-4'>
-        Table:{order.table} <br /> #{order.orderId}
-
-        <button className=' bg-gray-500 hover:bg-blue-700  place-content-center text-white font-bold py-2 px-4 m-4 rounded'>Delivered</button>
+    <div className="bg-gray-100 h-20 font-bold shadow-lg text-xl rounded  m-2" > {/*bg-gray-100*/}
+      <header className='flex text-base justify-between p-2'>
+        <h3 className="text-center text-xl border-8 border-x-gray-100 h-10 w-10 bg-white shadow-lg rounded-lg"> {order.table}</h3>
+        <Cronometro order={order} />
       </header>
-      <div className=" w-60 flex flex-col  h-60  rounded shadow-lg">
+      <div className=" w-60 flex bg-white flex-col rounded shadow-lg">
+        <p className='font-bold   self-center mb-3 text-sm '> {order.orderId.slice(8, 12)}</p>
         {order.products.map((product) => (
-          <li className="flex justify-between list-none px-2 px-4">
-            <div>{product.name}</div>
-            <div>{product.quantity}</div>
+          <li className="flex justify-between font-normal list-none  px-2">
+            <p>- {product.name}</p>
+            <p>{product.quantity}</p>
           </li>
         ))}
+        <button className=' bg-gray-400 hover:bg-blue-700  text-white font-bold m-4 p-2  rounded'>Delivered</button>
         {/* <button className=' bg-gray-500 hover:bg-blue-700  place-content-center text-white font-bold py-2 px-4  rounded'>Delivered</button> */}
       </div>
+
     </div >
   )
 }
