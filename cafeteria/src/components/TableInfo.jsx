@@ -55,7 +55,6 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, handleReset 
                                             </ul>
                                             : null
                                     ))}
-
                                 </ul>
                             </div>
                         ))}
@@ -76,7 +75,7 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, handleReset 
                         }</div>
                     <footer className='flex  h-1/2 w-6/12 flex-row-reverse flex-wrap  mt-8 justify-around p-5'>
                         {active ?
-                            <button className=' bg-gray-500  text-white font-bold py-4 px-5  rounded' type="button" onClick={() => { handleReset(number) }}> CheckOut #{number}</button> :
+                            <button className=' bg-gray-500  text-white font-bold py-4 px-5  rounded' type="button" onClick={() => { handleReset(number, orders) }}> CheckOut #{number}</button> :
                             <button className=' bg-gray-400 text-white font-bold py-4 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> CheckIn #{number}</button>}
                         < div className=' bg-gray-500 hover:bg-blue-700  flex justify-center text-white mt-4 text-center font-bold py-4 px-4  rounded'>
                             <Link to={`/RestaurantMenu/${number}`}>Add Products</Link>

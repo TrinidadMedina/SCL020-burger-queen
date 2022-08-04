@@ -22,6 +22,12 @@ export function Kitchen() {
     getOrders1()
   }, [])
 
+  useEffect(() => {
+
+    console.log("caca")
+  },[orders])
+
+
   const handleReady = async (id) => {
     const confirmAlert = confirm('¿Enviar a salón?');
     if (confirmAlert === true) {
