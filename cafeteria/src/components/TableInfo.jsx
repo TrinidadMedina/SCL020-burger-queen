@@ -34,7 +34,7 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, handleReset 
         return (
             <section className=' border-8 border-x-gray-100  h-2/3  w-2/3 flex max-h-fit flex-col p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
                 <div className=' justify-between flex flex-row-reverse'>
-                    <button className=' bg-gray-500   text-white font-bold py-1 px-2  rounded' type="button" onClick={() => { closeTableInfo(isShown) }}> X </button>
+                    <button className=' bg-gray-500  text-xs text-white font-bold w-6 h-6 rounded' type="button" onClick={() => { closeTableInfo(isShown) }}> X </button>
                     <div className='font-bold text-2xl mb-2'>Mesa {number}
                         {/* <p className='font-light text-xs'>Check in Time: {active && checkInTime}</p> */}
                     </div>
@@ -73,12 +73,12 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, handleReset 
                                 </ul>
                             </div>
                         }</div>
-                    <footer className='flex  h-1/2 w-6/12 flex-row-reverse flex-wrap  mt-8 justify-around p-5'>
+                    <footer className='flex  h-full w-6/12 flex-row-reverse flex-wrap  mt-8 justify-around p-5'>
 
-                        <button className=' bg-gray-500  text-white font-bold py-4 px-5  rounded' type="button" onClick={() => { handleReset(number, orders) }}> Agregar</button>
+                        <button className=' bg-gray-500 hover:bg-blue-700 text-white font-bold h-2/5 w-2/5 py-4 px-5 rounded' type="button" onClick={() => { handleReset(number, orders) }}> Cerrar</button>
                         {/* // <button className=' bg-gray-400 text-white font-bold py-4 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> Check In #{number}</button>} */}
-                        < div className=' bg-gray-500 hover:bg-blue-700  flex justify-center text-white mt-4 text-center font-bold py-4 px-4  rounded'>
-                            <Link to={`/RestaurantMenu/${number}`}>Agregar</Link>
+                        < div className=' bg-gray-500 hover:bg-blue-700 text-white font-bold py-4 px-5 rounded'>
+                            <Link to={`/Menu/${number}`}>Agregar</Link>
                         </div>
                     </footer>
                 </article>

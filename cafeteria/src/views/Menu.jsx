@@ -8,31 +8,28 @@ import { ButtonHome } from '../components/ButtonHome.jsx'
 import flecha from '../flecha.png';
 
 //actualizar arreglo segun horario
-//setear arreglo menu selected:false - setear checkbox
 
-export function RestaurantMenu() {
+export function Menu() {
+
     const { tableNumber } = useParams();
-
-    const menu2 = menu
-    const [food, setFood] = useState(menu2);
+    const [food, setFood] = useState(menu);
 
     const unique = Array.from(new Set(food.map(item => item.category)));
 
-    useEffect(() => {
-        console.log(food[0].quantity)
-    }, [food])
     const handlePlus = (name) => {
         const newMenu = [...food];
         const product = newMenu.find((product) => product.name === name);
         product.quantity += 1;
         setFood(newMenu);
     }
+
     const handleRest = (name) => {
         const newMenu = [...food];
         const product = newMenu.find((product) => product.name === name);
         product.quantity > 0 ? product.quantity -= 1 : product.quantity;
         setFood(newMenu);
     }
+
     const handleSendOrder = () => {//NO ENVIAR SI ESTA VACIO
         const confirmAlert = confirm('¿Enviar a cocina?');
         if (confirmAlert === true) {
@@ -51,15 +48,13 @@ export function RestaurantMenu() {
             })
         }
     }
+
     const handleClikCategory = (e) => {
         const cat = e.currentTarget;
         const panel = cat.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
+        panel.style.display === "block"? panel.style.display = "none": panel.style.display = "block";
     }
+
     return (
         <div className="w-screen h-screen flex flex-col bg-white">
             <ButtonHome />
@@ -89,10 +84,8 @@ export function RestaurantMenu() {
                 ))}
             </main>
             <button className=" content-center bg-gray-500 hover:bg-blue-700 text-white font-bold rounded w-fit p-3 m-4" onClick={handleSendOrder}>
-                <Link to="/Diner">Enviar</Link>
+                <Link to="/Salon">Enviar</Link>
             </button>
-            <div>has sleccionado {JSON.stringify(menu.filter((product) => product.quantity > 0))}
-            </div>
         </div>
     )
 }

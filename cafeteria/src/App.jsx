@@ -1,5 +1,5 @@
 import React from 'react'
-import { RestaurantMenu } from './views/RestaurantMenu'
+import { Menu } from './views/Menu'
 import { Diner } from './views/Diner'
 import {Home} from './views/Home'
 import {Kitchen} from './views/Kitchen';
@@ -11,10 +11,10 @@ export function App() {
         <>
             <Routes>
                 <Route exact path='/' element={<Login />}/>
-                <Route exact path="/Home" element={<Home />} />
-                <Route exact path="RestaurantMenu/:tableNumber" element={<RestaurantMenu />} />
-                <Route exact path="Diner" element={<Diner />} />
-                <Route exact path="Kitchen" element={<Kitchen />} />
+                <Route exact path="/Inicio" element={<Home />} />
+                <Route exact path="Menu/:tableNumber" element={<Menu />} />
+                <Route exact path="Salon" element={<Diner />} />
+                <Route exact path="Cocina" element={<Kitchen />} />
             </Routes>
         </>
     )
