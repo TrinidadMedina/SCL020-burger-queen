@@ -75,11 +75,11 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, handleReset 
                         }</div>
                     <footer className='flex  h-full w-6/12 flex-row-reverse flex-wrap  mt-8 justify-around p-5'>
 
-                        <button className=' bg-gray-500 hover:bg-blue-700 text-white font-bold h-2/5 w-2/5 py-4 px-5 rounded' type="button" onClick={() => { handleReset(number, orders) }}> Cerrar</button>
+                        <button className=' bg-gray-500 hover:bg-blue-700 text-white font-bold h-20 w-50 py-4 px-5 rounded-lg' type="button" onClick={() => { handleReset(number, orders) }}> Cerrar</button>
                         {/* // <button className=' bg-gray-400 text-white font-bold py-4 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> Check In #{number}</button>} */}
-                        < div className=' bg-gray-500 hover:bg-blue-700 text-white font-bold py-4 px-5 rounded'>
+                        <button className=' bg-gray-500 hover:bg-blue-700 text-white font-bold h-20 w-50 py-4 px-5 rounded-lg '>
                             <Link to={`/Menu/${number}`}>Agregar</Link>
-                        </div>
+                        </button>
                     </footer>
                 </article>
             </section >
