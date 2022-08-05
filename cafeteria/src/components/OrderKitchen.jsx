@@ -23,7 +23,7 @@ export function OrderKitchen({ order, handleReady }) {
           ))}
         </div>
       </main>
-      <button onClick={clickReady} className=' bg-gray-500 hover:bg-blue-700  place-content-center text-white font-bold py-2 px-4 m-4 mt-3 rounded justify-self-end'>Ready</button>
+      <button onClick={clickReady} className=' bg-gray-500 hover:bg-blue-700  place-content-center text-white font-bold py-2 px-4 m-4 mt-3 rounded justify-self-end'>Listo</button>
     </div >
   )
 }

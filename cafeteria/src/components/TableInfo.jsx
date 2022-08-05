@@ -35,8 +35,8 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, handleReset 
             <section className=' border-8 border-x-gray-100  h-2/3  w-2/3 flex max-h-fit flex-col p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
                 <div className=' justify-between flex flex-row-reverse'>
                     <button className=' bg-gray-500   text-white font-bold py-1 px-2  rounded' type="button" onClick={() => { closeTableInfo(isShown) }}> X </button>
-                    <div className='font-bold text-2xl mb-2'>Table {number}
-                        <p className='font-light text-xs'>Check in Time: {active && checkInTime}</p>
+                    <div className='font-bold text-2xl mb-2'>Mesa {number}
+                        {/* <p className='font-light text-xs'>Check in Time: {active && checkInTime}</p> */}
                     </div>
                 </div>
                 <article className="flex overflow-auto ">
@@ -74,11 +74,11 @@ export const TableInfo = ({ isShown, closeTableInfo, selectedTable, handleReset 
                             </div>
                         }</div>
                     <footer className='flex  h-1/2 w-6/12 flex-row-reverse flex-wrap  mt-8 justify-around p-5'>
-                        {active ?
-                            <button className=' bg-gray-500  text-white font-bold py-4 px-5  rounded' type="button" onClick={() => { handleReset(number, orders) }}> CheckOut #{number}</button> :
-                            <button className=' bg-gray-400 text-white font-bold py-4 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> CheckIn #{number}</button>}
+
+                        <button className=' bg-gray-500  text-white font-bold py-4 px-5  rounded' type="button" onClick={() => { handleReset(number, orders) }}> Agregar</button>
+                        {/* // <button className=' bg-gray-400 text-white font-bold py-4 px-4  rounded' type="button" onClick={() => { console.log(selectedTable) }}> Check In #{number}</button>} */}
                         < div className=' bg-gray-500 hover:bg-blue-700  flex justify-center text-white mt-4 text-center font-bold py-4 px-4  rounded'>
-                            <Link to={`/RestaurantMenu/${number}`}>Add Products</Link>
+                            <Link to={`/RestaurantMenu/${number}`}>Agregar</Link>
                         </div>
                     </footer>
                 </article>

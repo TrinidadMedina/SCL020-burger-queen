@@ -22,10 +22,6 @@ export function Kitchen() {
     getOrders1()
   }, [])
 
-  useEffect(() => {
-
-    console.log("caca")
-  },[orders])
 
 
   const handleReady = async (id) => {
@@ -33,7 +29,7 @@ export function Kitchen() {
     if (confirmAlert === true) {
       const newOrders = [...orders];
       const order = newOrders.find((order) => order.orderId === id);
-      order.estado = "Ready"
+      order.estado = "Listo"
       const allOrders = await getDocs(collection(db, "orders"));
       allOrders.forEach((item) => {
         if (item.data().orderId == id) {
@@ -54,7 +50,7 @@ export function Kitchen() {
       </header>
       <main className="flex justify-around m-10 flex-wrap">
         {orders.map((order) => (
-          order.estado === "preparando" &&
+          order.estado === "Preparando" &&
           <OrderKitchen handleReady={handleReady} order={order} />
         ))}
       </main>

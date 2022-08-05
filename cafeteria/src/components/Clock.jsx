@@ -13,9 +13,9 @@ function Clock() {
 
     return (
         <div className=' font-bold place-content-center  px-3 m-4  bg-white shadow-lg rounded-lg ' >
-            User:
+            {/* Usuario: */}
             <br />
-            <div>Time: {clockState}</div>
+            <div>Hora: {clockState}</div>
         </div>
     )
 }
