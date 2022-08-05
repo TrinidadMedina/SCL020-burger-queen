@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from '../components/Table'
 import { TableInfo } from '../components/TableInfo'
-import { tables } from '../data.jsx'
+import { tables } from '../data'
 import Clock from '../components/Clock'
 import { Order } from '../components/Order'
 import { db } from '../firebase/config'
-// import { OrderKitchen } from '../components/OrderKitchen'
-import { collection, query, onSnapshot, orderBy, doc, updateDoc, deleteDoc, getDocs } from 'firebase/firestore'
+import { collection, query, onSnapshot, orderBy, doc, updateDoc, getDocs } from 'firebase/firestore'
 import { ButtonHome } from '../components/ButtonHome'
 
 export const Diner = () => {
@@ -15,16 +14,12 @@ export const Diner = () => {
     const [orders, setOrders] = useState([]); //guarda todas las ordenes del onsnapshot, para render en pendientes y sumar la selected table
     const [allTables, setAllTables] = useState(tables) //guarda todas las tables con su estado
 
-    useEffect(() => {
-
-        console.log("caca")
-    }, [orders])
-
     const callback = (data) => {
         return setOrders(data.docs.map((order) => {
             return ({ ...order.data() })
         }))
     }
+
     useEffect(() => {
         const getOrders = async () => {
             const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
@@ -32,10 +27,12 @@ export const Diner = () => {
         }
         getOrders()
     }, [])
+
     const closeTableInfo = (isShown) => {
         if (isShown)
             setIsShown(false)
     }
+
     const activateTables = (number) => {
         setIsShown(true)
         const newTables = [...allTables]
@@ -46,6 +43,7 @@ export const Diner = () => {
         setSelectedTable({ ...newTable, orders: selectedTableOrders })
         setAllTables([...newTables]) //pa q se ponga verde
     }
+
     const handleReset = async (number, ordersTable) => {
         setIsShown(false);
         const newTables = [...allTables];
@@ -62,7 +60,6 @@ export const Diner = () => {
                 }
             })
         })
-        // setSelectedTable({ ...selected })
     }
 
     const handleDelivery = async (id) => {
@@ -82,38 +79,33 @@ export const Diner = () => {
             setOrders(newOrders)
         }
     }
-    return (
-        <>
-            <div className="w-full h-full">
-                <nav className="bg-zinc-50">
-                    <header className="flex justify-between">
-                        <ButtonHome />
-                        <Clock />
-                    </header>
-                </nav>
-                {isShown ?
-                    <>
-                        <TableInfo closeTableInfo={closeTableInfo} handleReset={handleReset} isShown={isShown} selectedTable={selectedTable} />
-                    </>
-                    : <>
-                        <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 p-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-                            {allTables.map((table) =>
 
-                                <div onClick={() => { activateTables(table.number) }}>
-                                    <Table table={table} />
-                                </div>)}
-                        </div>
-                        <div className='bg-gray-300 overflow-auto flex  h-2/6 p-8 w-10/12 py-4 px-3 my-4  mx-auto  shadow-lg rounded-lg '>
-                            {orders.map((order) => (
-                                order.estado !== "Entregada" && order.estado !== "Cerrada" ?
-                                    <Order handleDelivery={handleDelivery} order={order} /> : null
-                            ))
-                            }
-                        </div>
-                    </>
-                }
-            </div >
-        </>
+    return (
+        <div className="w-full h-full bg-zinc-50">
+            <nav>
+                <header className="flex justify-between">
+                    <ButtonHome />
+                    <Clock />
+                </header>
+            </nav>
+            {isShown ?
+                    <TableInfo closeTableInfo={closeTableInfo} handleReset={handleReset} isShown={isShown} selectedTable={selectedTable} />
+                : <>
+                    <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 p-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+                        {allTables.map((table) =>
+                            <div onClick={() => { activateTables(table.number) }}>
+                                <Table table={table} />
+                            </div>)}
+                    </div>
+                    <div className='bg-gray-300 overflow-auto flex  h-2/6 p-8 w-10/12 py-4 px-3 my-4  mx-auto  shadow-lg rounded-lg '>
+                        {orders.map((order) => (
+                            order.estado !== "Entregada" && order.estado !== "Cerrada" ?
+                                <Order handleDelivery={handleDelivery} order={order} /> : null
+                        ))}
+                    </div>
+                </>
+            }
+        </div >
     )
 }
 

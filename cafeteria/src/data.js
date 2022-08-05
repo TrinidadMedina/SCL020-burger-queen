@@ -4,7 +4,6 @@ export const menu = [
     "price": 2000,
     "category": "Cafés",
     "status": "always",
-    "selected": false,
     "quantity": 0,
   },
   {
@@ -12,7 +11,6 @@ export const menu = [
     "price": 2500,
     "category": "Cafés",
     "status": "always",
-    "selected": false,
     "quantity": 0
   },
   {
@@ -20,7 +18,6 @@ export const menu = [
     "price": 3000,
     "category": "Desayuno",
     "status": "bf",
-    "selected": false,
     "quantity": 0
   },
   {
@@ -29,7 +26,6 @@ export const menu = [
     "price": 9000,
     "category": "Desayuno",
     "status": "bf",
-    "selected": false,
     "quantity": 0
   },
   {
@@ -37,7 +33,6 @@ export const menu = [
     "price": 6000,
     "category": "Almuerzo",
     "status": "lunch",
-    "selected": false,
     "quantity": 0
   },
   {
@@ -45,78 +40,59 @@ export const menu = [
     "price": 4000,
     "category": "Sandwiches",
     "status": "lunch",
-    "selected": false,
     "quantity": 0
   },
   {
-    "name": "Sandwich salmon",
-
+    "name": "Sandwich salmón",
     "price": 3500,
     "category": "Sandwiches",
     "status": "lunch",
-    "selected": false,
     "quantity": 0
   },
   {
-
     "name": "Brownie",
     "price": 2500,
     "category": "Pastelería",
     "status": "always",
-    "selected": false,
     "quantity": 0
   }
-
-  
 ]
 
 export const tables = [
   {
     "number": 1,
     "active": false,
-    "checkInTime": "13:03",
-    "persons": 2,
-    "bill": 0,
+    "checkInTime": "",
     "orders": []
   },
   {
     "number": 2,
     "active": false,
-    "checkInTime": "13:03",
-    "persons": 2,
-    "bill": 0,
+    "checkInTime": "",
     "orders": []
   },
   {
     "number": 3,
     "active": false,
-    "checkInTime": "13:03",
-    "persons": 2,
-    "bill": 0,
+    "checkInTime": "",
     "orders": []
   },
   {
     "number": 4,
     "active": false,
-    "checkInTime": "13:03",
-    "persons": 2,
-    "bill": 0,
+    "checkInTime": "",
     "orders": []
   },
   {
     "number": 5,
     "active": false,
-    "checkInTime": "13:03",
-    "persons": 2,
-    "bill": 0,
+    "checkInTime": "",
     "orders": []
   },
   {
     "number": 6,
     "active": false,
-    "checkInTime": "14:03",
-    "persons": 2,
-    "bill": 0,
+    "checkInTime": "",
     "orders": []
   }
 ]

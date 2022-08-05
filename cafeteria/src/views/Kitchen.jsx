@@ -6,6 +6,7 @@ import { collection, query, onSnapshot, orderBy, updateDoc, getDocs, doc } from 
 import { OrderKitchen } from '../components/OrderKitchen'
 
 export function Kitchen() {
+
   const [orders, setOrders] = useState([]);
 
   const callback1 = (data) => {
@@ -21,8 +22,6 @@ export function Kitchen() {
     }
     getOrders1()
   }, [])
-
-
 
   const handleReady = async (id) => {
     const confirmAlert = confirm('¿Enviar a salón?');
@@ -41,9 +40,9 @@ export function Kitchen() {
       setOrders(newOrders)
     }
   }
-  console.log(orders)
+
   return (
-    <div className="bg-zinc-50">
+    <div className="bg-zinc-50 h-screen w-screen">
       <header className="flex justify-between">
         <ButtonHome />
         <Clock />

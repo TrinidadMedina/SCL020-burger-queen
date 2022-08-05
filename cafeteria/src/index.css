@@ -7,28 +7,10 @@
   width: 100vw;
   height: 100vh;
 }
+
 body{
   width: 100vw;
   height: 100vh;
-  background-color: #f4f4f4;
 } 
 
-.active, .accordion:hover {
-  background-color: #ccc;
-}
 
-.accordion:after {
-
-  font-size: 13px;
-  color: #777;
-  float: right;
-  margin-left: 5px;
-}
-
-.active:after {
-  content: "\2796"; /* Unicode character for "minus" sign (-) */
-}
-
-[type='checkbox'], [type='radio'] {
-  color: blue;
-}
