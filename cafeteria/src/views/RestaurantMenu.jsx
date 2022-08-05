@@ -42,7 +42,7 @@ export function RestaurantMenu() {
                 table: tableNumber,
                 products,
                 orderId: tableNumber + "-" + uuidv4(),
-                estado: "preparando"
+                estado: "Preparando"
                 //meserx: "",
                 //observaciones:"",
             })

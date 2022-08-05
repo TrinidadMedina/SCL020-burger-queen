@@ -3,7 +3,7 @@ import { Cronometro } from './Cronometro'
 export function Order({ order, handleDelivery }) {
 
   const handleClickDelivery = () => {
-    if (order.estado == "Ready") {
+    if (order.estado == "Listo") {
       handleDelivery(order.orderId)
     }
   }
@@ -20,15 +20,10 @@ export function Order({ order, handleDelivery }) {
           <li className="flex justify-between font-normal list-none  px-2">
             <p>- {product.name}</p>
             <p>{product.quantity}</p>
-
           </li>
         ))}
-
-
-        <button onClick={handleClickDelivery} className=' bg-gray-400 hover:bg-blue-700  text-white font-bold m-4 p-2  rounded'>{order.estado}</button>
-        {/* <button className=' bg-gray-500 hover:bg-blue-700  place-content-center text-white font-bold py-2 px-4  rounded'>Delivered</button> */}
+        <button onClick={handleClickDelivery} className={order.estado == "Preparando" ? ' bg-gray-400  text-white font-bold m-4 p-2 rounded ' : "hover:bg-blue-400 bg-blue-700 text-white font-bold m-4 p-2 rounded"} >{order.estado}</button>
       </div>
-
     </div >
   )
 }
