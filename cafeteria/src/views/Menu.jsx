@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { menu } from '../data'
 import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { Timestamp, addDoc, collection } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config.js';
 import { ButtonHome } from '../components/ButtonHome.jsx'
 import flecha from '../flecha.png';
@@ -12,9 +12,24 @@ import flecha from '../flecha.png';
 export function Menu() {
 
     const { tableNumber } = useParams();
-    const [food, setFood] = useState(menu);
+    const [food, setFood] = useState([]);
 
     const unique = Array.from(new Set(food.map(item => item.category)));
+
+    const callback = (data) => {
+        return setFood(data.docs.map((product) => {
+            return ({ ...product.data() })
+        }))
+    }
+
+    useEffect(() => {
+        const getProducts = async () => {
+            const q = query(collection(db, 'productos'));
+            onSnapshot(q, callback)
+        }
+        getProducts()
+    }, [])
+
 
     const handlePlus = (name) => {
         const newMenu = [...food];
@@ -52,7 +67,7 @@ export function Menu() {
     const handleClikCategory = (e) => {
         const cat = e.currentTarget;
         const panel = cat.nextElementSibling;
-        panel.style.display === "block"? panel.style.display = "none": panel.style.display = "block";
+        panel.style.display === "block" ? panel.style.display = "none" : panel.style.display = "block";
     }
 
     return (
@@ -65,12 +80,12 @@ export function Menu() {
                             <p className="">{category}</p>
                             <img src={flecha} className="w-4"></img>
                         </button>
-                        <div className="bg-white hidden overflow-hidden py-2 px-4 text-base">
+                        <div className="bg-white hidden overflow-hidden px-1 text-base">
                             {food.map((product) =>
                                 product.category === category ?
                                     <div className="grid grid-cols-3 gap-4 p-1" >
                                         <span className="w-60 self-center">{product.name}</span>
-                                        <span className="w-10 self-center">${product.price}</span>
+                                        <span className="w-10 self-center">${product.price.toLocaleString()}</span>
                                         <div className="justify-self-end">
                                             <button className="px-2 m-2 w-8 h-8 border-2 rounded-full bg-gray-300 font-bold hover:bg-blue-700" onClick={() => { handleRest(product.name) }}>-</button>
                                             <label className="p-2">{product.quantity}</label>
