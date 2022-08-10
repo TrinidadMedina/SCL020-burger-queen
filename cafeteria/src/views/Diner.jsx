@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Table } from '../components/Table'
 import { TableInfo } from '../components/TableInfo'
 import { tables } from '../data'
@@ -7,24 +7,18 @@ import { Order } from '../components/Order'
 import { db } from '../firebase/config'
 import { collection, query, onSnapshot, orderBy, doc, updateDoc, getDocs } from 'firebase/firestore'
 import { ButtonHome } from '../components/ButtonHome'
+import { OrdersContext } from '../context/ordersContext.jsx'
 
 export const Diner = () => {
+    const { orders, getOrders } = useContext(OrdersContext)
     const [isShown, setIsShown] = useState(false); // guarda booleano que controla mostrar tableInfo
     const [selectedTable, setSelectedTable] = useState(tables) // guarda table clickeada  para uso tableinfo
-    const [orders, setOrders] = useState([]); //guarda todas las ordenes del onsnapshot, para render en pendientes y sumar la selected table
+    // const [orders, setOrders] = useState([]); //guarda todas las ordenes del onsnapshot, para render en pendientes y sumar la selected table
     const [allTables, setAllTables] = useState(tables) //guarda todas las tables con su estado
 
-    const callback = (data) => {
-        return setOrders(data.docs.map((order) => {
-            return ({ ...order.data() })
-        }))
-    }
 
     useEffect(() => {
-        const getOrders = async () => {
-            const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
-            onSnapshot(q, callback)
-        }
+
         getOrders()
     }, [])
 
@@ -89,7 +83,7 @@ export const Diner = () => {
                 </header>
             </nav>
             {isShown ?
-                    <TableInfo closeTableInfo={closeTableInfo} handleReset={handleReset} isShown={isShown} selectedTable={selectedTable} />
+                <TableInfo closeTableInfo={closeTableInfo} handleReset={handleReset} isShown={isShown} selectedTable={selectedTable} />
                 : <>
                     <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 p-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                         {allTables.map((table) =>
