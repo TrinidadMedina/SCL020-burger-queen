@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { ButtonHome } from '../components/ButtonHome.jsx'
 import Clock from '../components/Clock'
-import { db } from '../firebase/config'
-import { collection, query, onSnapshot, orderBy, updateDoc, getDocs, doc } from 'firebase/firestore'
+
 import { OrderKitchen } from '../components/OrderKitchen'
+import { OrdersContext } from '../context/ordersContext.jsx'
 
 export function Kitchen() {
 
-  const [orders, setOrders] = useState([]);
+  const {orders, getOrders}= useContext(OrdersContext)
 
-  const callback1 = (data) => {
+  useEffect(()=>{
+    getOrders()
+  },[])
+
+  console.log(orders)
+  //const [orders, setOrders] = useState([]);
+
+/*   const callback1 = (data) => {
     return setOrders(data.docs.map((order) => {
       return ({ ...order.data() })
     }))
@@ -39,7 +46,7 @@ export function Kitchen() {
       })
       setOrders(newOrders)
     }
-  }
+  } */
 
   return (
     <div className="bg-zinc-50 h-screen w-screen">
@@ -48,9 +55,9 @@ export function Kitchen() {
         <Clock />
       </header>
       <main className="flex justify-around m-10 flex-wrap">
-        {orders.map((order) => (
+         {orders.map((order) => (
           order.estado === "Preparando" &&
-          <OrderKitchen handleReady={handleReady} order={order} />
+          <OrderKitchen /* handleReady={handleReady} */ order={order} />
         ))}
       </main>
     </div>
