@@ -4,9 +4,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { Timestamp, addDoc, collection, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config.js';
 import flecha from '../flecha.png';
+import { useNavigate } from 'react-router-dom';
+
 
 export function Menu2({ showModal, closeModal, tableNumber, time }) {
     const [food, setFood] = useState([]);
+    let navigate = useNavigate()
     let unique = [];
     console.log(time)
     if (time > 12 && time < 15) {
@@ -64,6 +67,7 @@ export function Menu2({ showModal, closeModal, tableNumber, time }) {
                 product.quantity = 0;
             })
             closeModal()
+            navigate('/Salon')
 
         }
     }
