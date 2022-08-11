@@ -7,6 +7,7 @@ import { Login } from './views/Login';
 import { Route, Routes } from "react-router-dom";
 import { SetOrders } from './context/SetOrders';
 import { Menu2 } from './views/Menu2';
+import { TableInfo } from './views/TableInfo';
 
 export function App() {
     return (
@@ -18,6 +19,7 @@ export function App() {
                 <Route exact path="Menu/:tableNumber" element={<Menu />} />
                 <Route exact path="Salon" element={<Diner />} />
                 <Route exact path="Cocina" element={<Kitchen />} />
+                <Route exact path="TableInfo/:tableNumber" element={<TableInfo />} />
             </Routes>
         </SetOrders>
     )

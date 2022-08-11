@@ -9,9 +9,7 @@ export function Kitchen() {
 
   const {orders, getOrders}= useContext(OrdersContext)
 
-  useEffect(()=>{
-    getOrders()
-  },[])
+  useEffect(()=>{getOrders()},[])
 
   console.log(orders)
   //const [orders, setOrders] = useState([]);
