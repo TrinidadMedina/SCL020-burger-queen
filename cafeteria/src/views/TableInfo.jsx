@@ -125,16 +125,12 @@ export const TableInfo = () => {
                 </article>
             </section >
             <div className="flex justify-center ">
-                <button className=' bg-gray-500 hover:bg-blue-700 text-white font-bold text-sm py-4 px-5 rounded' type="button" onClick={() => { handleReset(tableOrders) }}> CERRAR MESA</button>
+                <button className=" h-14 w-20 bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => { handleReset(tableOrders) }}> CERRAR MESA</button>
                 <button
-                    className="bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="h-14 w-20  bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {
-
-
                         handleClickAdd()
-
-                        // setShowModal(true)
                     }}
                 >
                     Agregar
