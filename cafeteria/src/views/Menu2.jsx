@@ -3,14 +3,22 @@ import { OrdersContext } from '../context/ordersContext.jsx';
 import { v4 as uuidv4 } from 'uuid';
 import { Timestamp, addDoc, collection, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config.js';
-
 import flecha from '../flecha.png';
 
-export function Menu2({ showModal, closeModal, tableNumber }) {
+export function Menu2({ showModal, closeModal, tableNumber, time }) {
     const [food, setFood] = useState([]);
-
-    const unique = Array.from(new Set(food.map(item => item.category)));
-
+    let unique = [];
+    console.log(time)
+    if (time > 12 && time < 15) {
+        const prod = food.filter(item => item.status != "breakfast")
+        unique = Array.from(new Set(prod.map((item) => item.category)))
+    } else if (time < 12 && time > 8) {
+        const prod = food.filter(item => item.status != "lunch")
+        unique = Array.from(new Set(prod.map((item) => item.category)))
+    } else {
+        const prod = food.filter(item => item.status === "always")
+        unique = Array.from(new Set(prod.map((item) => item.category)))
+    }
     const callback = (data) => {
         return setFood(data.docs.map((product) => {
             return ({ ...product.data() })
@@ -89,6 +97,7 @@ export function Menu2({ showModal, closeModal, tableNumber }) {
                                 </div>
                                 <div className="relative p-6 flex-auto">
                                     {unique.map((category) => (
+
                                         <div className="w-full">
                                             <button className="flex bg-gray-200 text-lg cursor-pointer p-4 text-left w-full hover:bg-gray-300 justify-between" onClick={handleClikCategory} key={category}>
                                                 <p className="">{category}</p>

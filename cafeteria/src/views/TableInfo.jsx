@@ -1,43 +1,54 @@
-import React, {useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Menu2 } from './Menu2';
 import { OrdersContext } from '../context/ordersContext';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { collection, query, onSnapshot, orderBy, doc, updateDoc, getDocs } from 'firebase/firestore'
+import { collection, doc, updateDoc, getDocs } from 'firebase/firestore'
 import { db } from '../firebase/config'
-
+import Clock from '../components/Clock';
 
 export const TableInfo = () => {
-    const {tableNumber} = useParams();
-    const { orders,getOrders } = useContext(OrdersContext)
+    const { tableNumber } = useParams();
+    const { orders, getOrders } = useContext(OrdersContext)
     const [showModal, setShowModal] = useState(false);
-    const [tableOrders, setTableOrders] = useState([])
+    const [tableOrders, setTableOrders] = useState([]);
+    const [time, setTime] = useState()   //P
     let navigate = useNavigate();
 
-    useEffect(()=>{
+    useEffect(() => {
         getOrders()
         const selectedTableOrders = orders.filter((order) => { return order.table == tableNumber && order.estado !== "Cerrada" })
         setTableOrders(selectedTableOrders)
-    },[])
-
+    }, [])
 
     const handleReset = async (ordersTable) => {
-  /*       const newTables = [...allTables];
-        const selected = newTables.find((table) => table.number === number);
-        selected.active = false; */
-        const ordersFirestore = await getDocs(collection(db, "orders"));
-        ordersTable.forEach((order) => {
-            order.estado = "Cerrada"
-            ordersFirestore.forEach((item) => {
-                if (item.data().orderId == order.orderId) {
-                    updateDoc(doc(db, "orders", item.id), {
-                        estado: order.estado
-                    })
-                }
+        /*       const newTables = [...allTables];
+            const selected = newTables.find((table) => table.number === number);
+              selected.active = false; */
+        const confirmAlert = confirm('¿Cerrar Mesa?');
+        if (confirmAlert === true) {
+            const ordersFirestore = await getDocs(collection(db, "orders"));
+            ordersTable.forEach((order) => {
+                order.estado = "Cerrada"
+                ordersFirestore.forEach((item) => {
+                    if (item.data().orderId == order.orderId) {
+                        updateDoc(doc(db, "orders", item.id), {
+                            estado: order.estado
+                        })
+                    }
+                })
             })
-        })
-        navigate('/Salon')
+            navigate('/Salon')
+        }
     }
 
+    const handleClickAdd = () => {
+        // const time = new Date();
+        // let hh = time.getHours();
+        let hh = 16
+        if (hh)
+            setTime(hh)
+        setShowModal(true)
+    }
     const closeModal = () => {
         setShowModal(false)
     }
@@ -56,7 +67,6 @@ export const TableInfo = () => {
         // console.log(Math.round(total))
         return total
     }
-
     const categories = Array.from(new Set(getProducts().map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
 
     function formatAmounts(price) {
@@ -66,63 +76,70 @@ export const TableInfo = () => {
             return null
         }
     }
-     return (
-             <div className='w-screen h-screen position:relative '>
-                    <div className=" content-center bg-gray-500 hover:bg-blue-700 text-white font-bold rounded w-fit p-3 m-4">
-                        <Link to="/Salon">Salón</Link>
+    return (
+        <div className='w-screen h-screen position:relative '>
+            <div className=" content-center bg-gray-500 hover:bg-blue-700 text-white font-bold rounded w-fit p-3 m-4">
+                <Link to="/Salon">Salón</Link>
+            </div>
+            <Menu2 time={time} showModal={showModal} closeModal={closeModal} tableNumber={tableNumber} />
+            <section className=' border-8 border-x-gray-100  h-2/3  w-2/3 flex max-h-fit flex-col p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
+                <div className=' justify-between flex flex-row-reverse'>
+                    <div className='font-bold text-2xl mb-2'>Mesa {tableNumber}
                     </div>
-                <Menu2 showModal={showModal} closeModal={closeModal} tableNumber={tableNumber} />
-                <section className=' border-8 border-x-gray-100  h-2/3  w-2/3 flex max-h-fit flex-col p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
-                    <div className=' justify-between flex flex-row-reverse'>
-                        <div className='font-bold text-2xl mb-2'>Mesa {tableNumber}
-                        </div>
+                </div>
+                <article className="flex overflow-auto ">
+                    <div className='w-auto  '>
+                        {categories.map((category) => (
+                            <div className="">
+                                <p className=' font-bold'> {category}</p>
+                                <ul className='w-full '>
+                                    {getProducts().map((product) => (
+                                        category == product.category ?
+                                            < ul className=' text-base grid gap-4 grid-cols-[13rem,1rem,3rem,4em]' >
+                                                <li>-{product.name} </li>
+                                                <li className='text-center'>{product.quantity}</li>
+                                                <li className='text-right'>${formatAmounts(product.price)}</li>
+                                                <li className='text-right'> ${formatAmounts(product.price * product.quantity)}</li>
+                                            </ul>
+                                            : null
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                        {tableOrders.length > 0 &&
+                            <div className='w-full border-t mt-2 border-black ' >
+                                <ul className='w-full  '>
+                                    <li className='mt-4 grid grid-cols-2 gap-10   '>Sub-Total:
+                                        <p className='text-right'>${formatAmounts(getBill())} </p>
+                                    </li>
+                                    <li className='  grid grid-cols-2  '>Propina:
+                                        <p className='text-right'>${formatAmounts(getBill() * 0.1)} </p>
+                                    </li>
+                                    <li className=' font-bold grid grid-cols-2   '>Total:
+                                        <p className='text-right'>${formatAmounts(Math.floor((getBill() * 1.1)))} </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
                     </div>
-                    <article className="flex overflow-auto ">
-                        <div className='w-auto  '>
-                            {categories.map((category) => (
-                                <div className="">
-                                    <p className=' font-bold'> {category}</p>
-                                    <ul className='w-full '>
-                                        {getProducts().map((product) => (
-                                            category == product.category ?
-                                                < ul className=' text-base grid gap-4 grid-cols-[13rem,1rem,3rem,4em]' >
-                                                    <li>-{product.name} </li>
-                                                    <li className='text-center'>{product.quantity}</li>
-                                                    <li className='text-right'>${formatAmounts(product.price)}</li>
-                                                    <li className='text-right'> ${formatAmounts(product.price * product.quantity)}</li>
-                                                </ul>
-                                                : null
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                            {tableOrders.length > 0 &&
-                                <div className='w-full border-t mt-2 border-black ' >
-                                    <ul className='w-full  '>
-                                        <li className='mt-4 grid grid-cols-2 gap-10   '>Sub-Total:
-                                            <p className='text-right'>${formatAmounts(getBill())} </p>
-                                        </li>
-                                        <li className='  grid grid-cols-2  '>Propina:
-                                            <p className='text-right'>${formatAmounts(getBill() * 0.1)} </p>
-                                        </li>
-                                        <li className=' font-bold grid grid-cols-2   '>Total:
-                                            <p className='text-right'>${formatAmounts(Math.floor((getBill() * 1.1)))} </p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            }
-                        </div>
-                    </article>
-                </section >
-                <button className=' bg-gray-500 hover:bg-blue-700 text-white font-bold h-20 w-50 py-4 px-5 rounded-lg' type="button" onClick={() => { handleReset(tableOrders) }}> Cerrar mesa</button>
-
+                </article>
+            </section >
+            <div className="flex justify-center ">
+                <button className=' bg-gray-500 hover:bg-blue-700 text-white font-bold text-sm py-4 px-5 rounded' type="button" onClick={() => { handleReset(tableOrders) }}> CERRAR MESA</button>
                 <button
-                    className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(true)}
+                    onClick={() => {
+
+
+                        handleClickAdd()
+
+                        // setShowModal(true)
+                    }}
                 >
                     Agregar
                 </button>
-            </div> 
-       )
+            </div>
+        </div>
+    )
 }
