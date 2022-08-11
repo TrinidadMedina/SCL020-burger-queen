@@ -1,57 +1,21 @@
 import React, {useState}from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import {
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut,
-  } from 'firebase/auth';
-  import { auth, provider } from '../firebase/config';
-
-
-  // Observer
-/* const validateState = (next, pathname) => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        next(pathname);
-      } else {
-        next('/');
-      }
-    });
-  }; */
-  // Sign in with email and password, la persona ya existe
+import { useNavigate } from 'react-router-dom'
+import { UserAuth } from '../context/AuthContext';
 
 
 export function Login() {
   let navigate = useNavigate();
+  const { login } = UserAuth();
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [profile,setProfile] = useState("")
 
-  const login = async (email, password) => {
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      return user;
-    } catch (error) {
-      throw error.code;
-    }
-  };
-
-
-  
 
   const handleSubmit =async (e)=>{
     e.preventDefault();
-    console.log(email)
-    console.log(password)
     try {
-      const user = await login(email, password);
-      //form.reset();
-      console.log(user)
+      await login(email, password);
       if(profile=='cocina'){
         navigate('/Cocina');
       }else{
@@ -59,15 +23,16 @@ export function Login() {
       }
       
     } catch (error) {
-      if (error === 'auth/invalid-email') {
+      console.log(error.code)
+      if (error.code === 'auth/invalid-email') {
         alert('Ingresa un correo válido: ejemplo@hotmail.com');
-      } else if (error === 'auth/missing-email') {
+      } else if (error.code === 'auth/missing-email') {
         alert('Debes ingresar un correo');
-      } else if (error === 'auth/internal-error') {
+      } else if (error.code === 'auth/internal-error') {
         alert('Debes llenar todos los campos');
-      } else if (error === 'auth/wrong-password') {
+      } else if (error.code === 'auth/wrong-password') {
         alert('Contraseña incorrecta');
-      } else if (error === 'auth/user-not-found') {
+      } else if (error.code === 'auth/user-not-found') {
         alert('Ups! aún no tienes cuenta, regístrate');
       }
     }
