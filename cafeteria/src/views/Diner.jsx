@@ -4,10 +4,10 @@ import { tables } from '../data'
 import Clock from '../components/Clock'
 import { Order } from '../components/Order'
 import { db } from '../firebase/config'
-import { collection, query, onSnapshot, orderBy, doc, updateDoc, getDocs } from 'firebase/firestore'
-import { ButtonHome } from '../components/ButtonHome'
+import { collection, doc, updateDoc, getDocs } from 'firebase/firestore'
 import { OrdersContext } from '../context/ordersContext.jsx'
 import { useNavigate } from "react-router-dom";
+import { ButtonSignOut } from '../components/ButtonSignOut'
 
 export const Diner = () => {
     let navigate = useNavigate();
@@ -47,7 +47,7 @@ export const Diner = () => {
         <div className="w-full h-full bg-zinc-50">
             <nav>
                 <header className="flex justify-between">
-                    <ButtonHome />
+                    <ButtonSignOut />
                     <Clock />
                 </header>
             </nav>
