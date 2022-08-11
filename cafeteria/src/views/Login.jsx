@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, {useState}from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {
     signInWithEmailAndPassword,
     onAuthStateChanged,
@@ -7,6 +7,7 @@ import {
     updateProfile,
   } from 'firebase/auth';
   import { auth, provider } from '../firebase/config';
+
 
   // Observer
 /* const validateState = (next, pathname) => {
@@ -37,6 +38,16 @@ import {
   }); */
 
 export function Login() {
+  let navigate = useNavigate();
+  const {input, setInput} = useState("")
+
+  const handleSubmit =async ()=>{
+    e.preventDefault();
+    console.log(event.target.value)
+    //navigate('/Inicio')
+  }
+
+  console.log(input)
 /*     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = container.querySelector('#email').value;
@@ -74,9 +85,7 @@ export function Login() {
                     <label className='mx-16' for="password">Contraseña: </label>
                     <input type="password" placeholder="Your password"/>
                 </div>
-                <div className=" text-center bg-gray-500 hover:bg-blue-700 text-white font-bold rounded w-2/5 p-3 m-4">
-                    <Link to="/Inicio">Entrar</Link>
-                </div>
+                <input type='submit' onChange={(event)=>setInput(event.target.value)} className=" text-center bg-gray-500 hover:bg-blue-700 text-white font-bold rounded w-2/5 p-3 m-4"/>
             </form>
         </div>
     )

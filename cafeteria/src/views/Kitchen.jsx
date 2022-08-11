@@ -1,9 +1,10 @@
 import React, { useEffect, useContext } from 'react'
 import { ButtonHome } from '../components/ButtonHome.jsx'
 import Clock from '../components/Clock'
-
 import { OrderKitchen } from '../components/OrderKitchen'
 import { OrdersContext } from '../context/ordersContext.jsx'
+import { collection, query, onSnapshot, orderBy, doc, updateDoc, getDocs } from 'firebase/firestore'
+import { db } from '../firebase/config'
 
 export function Kitchen() {
 
@@ -11,40 +12,20 @@ export function Kitchen() {
 
   useEffect(()=>{getOrders()},[])
 
-  console.log(orders)
-  //const [orders, setOrders] = useState([]);
-
-/*   const callback1 = (data) => {
-    return setOrders(data.docs.map((order) => {
-      return ({ ...order.data() })
-    }))
-  }
-
-  useEffect(() => {
-    const getOrders1 = async () => {
-      const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
-      onSnapshot(q, callback1)
-    }
-    getOrders1()
-  }, [])
 
   const handleReady = async (id) => {
     const confirmAlert = confirm('¿Enviar a salón?');
     if (confirmAlert === true) {
-      const newOrders = [...orders];
-      const order = newOrders.find((order) => order.orderId === id);
-      order.estado = "Listo"
       const allOrders = await getDocs(collection(db, "orders"));
       allOrders.forEach((item) => {
         if (item.data().orderId == id) {
           updateDoc(doc(db, "orders", item.id), {
-            estado: order.estado
+            estado: "Listo"
           })
         }
       })
-      setOrders(newOrders)
     }
-  } */
+  }
 
   return (
     <div className="bg-zinc-50 h-screen w-screen">
@@ -55,7 +36,7 @@ export function Kitchen() {
       <main className="flex justify-around m-10 flex-wrap">
          {orders.map((order) => (
           order.estado === "Preparando" &&
-          <OrderKitchen /* handleReady={handleReady} */ order={order} />
+          <OrderKitchen handleReady={handleReady} order={order} />
         ))}
       </main>
     </div>
