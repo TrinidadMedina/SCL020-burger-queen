@@ -52,9 +52,9 @@ export const Diner = () => {
                     <Clock />
                 </header>
             </nav>
-            <div className="grid gap-2 grid-cols-3 grid-rows-2 place-content-center w-4/5 p-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+            <div className="grid gap-2 grid-cols-3 grid-rows-2 place-items-center w-4/5 p-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 {allTables.map((table) =>
-                    <div onClick={() => { activateTables(table.number) }}>
+                    <div className="w-20 h-20"onClick={() => { activateTables(table.number) }}>
                         <Table table={table} />
                     </div>)}
             </div>
