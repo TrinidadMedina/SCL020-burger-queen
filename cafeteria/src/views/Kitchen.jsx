@@ -2,15 +2,15 @@ import React, { useEffect, useContext } from 'react'
 import Clock from '../components/Clock'
 import { OrderKitchen } from '../components/OrderKitchen'
 import { OrdersContext } from '../context/ordersContext.jsx'
-import { collection, query, onSnapshot, orderBy, doc, updateDoc, getDocs } from 'firebase/firestore'
+import { collection, doc, updateDoc, getDocs } from 'firebase/firestore'
 import { db } from '../firebase/config'
-import {ButtonSignOut} from '../components/ButtonSignOut'
+import { ButtonSignOut } from '../components/ButtonSignOut'
 
 export function Kitchen() {
 
-  const {orders, getOrders}= useContext(OrdersContext)
+  const { orders, getOrders } = useContext(OrdersContext)
 
-  useEffect(()=>{getOrders()},[])
+  useEffect(() => { getOrders() }, [])
 
 
   const handleReady = async (id) => {
@@ -34,7 +34,7 @@ export function Kitchen() {
         <Clock />
       </header>
       <main className="flex justify-around m-10 flex-wrap">
-         {orders.map((order) => (
+        {orders.map((order) => (
           order.estado === "Preparando" &&
           <OrderKitchen handleReady={handleReady} order={order} />
         ))}
