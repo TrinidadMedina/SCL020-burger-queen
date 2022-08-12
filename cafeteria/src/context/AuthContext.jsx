@@ -12,17 +12,17 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
 
-   const login = (email, password) => {
+  const login = (email, password) => {
     try {
       return signInWithEmailAndPassword(auth, email, password)
     } catch (error) {
       throw error;
     }
   };
-  
+
   const out = async () => {
     try {
-        console.log('saliste')
+      console.log('saliste')
       return signOut(auth);
 
     } catch (error) {
@@ -32,7 +32,7 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
+      // console.log(currentUser);
       setUser(currentUser);
     });
     return () => {

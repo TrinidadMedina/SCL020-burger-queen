@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Menu2 } from './Menu2';
+import { Menu } from './Menu';
 import { OrdersContext } from '../context/ordersContext';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { collection, doc, updateDoc, getDocs } from 'firebase/firestore'
 import { db } from '../firebase/config'
-import Clock from '../components/Clock';
+
 
 export const TableInfo = () => {
     const { tableNumber } = useParams();
@@ -42,11 +42,9 @@ export const TableInfo = () => {
     }
 
     const handleClickAdd = () => {
-        // const time = new Date();
-        // let hh = time.getHours();
-        let hh = 16
-        if (hh)
-            setTime(hh)
+        const time = new Date();
+        let hh = time.getHours();
+        setTime(hh)
         setShowModal(true)
     }
     const closeModal = () => {
@@ -64,24 +62,17 @@ export const TableInfo = () => {
     const getBill = () => {
         const prices = getProducts().map((pro) => { return pro.price * pro.quantity })
         const total = prices.reduce((a, b) => { return a + b })
-        // console.log(Math.round(total))
         return total
     }
     const categories = Array.from(new Set(getProducts().map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
 
-    function formatAmounts(price) {
-        if (tableOrders) {
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-        } else {
-            return null
-        }
-    }
+
     return (
         <div className='w-screen h-screen position:relative '>
             <div className=" content-center bg-gray-500 hover:bg-blue-700 text-white font-bold rounded w-fit p-3 m-4">
                 <Link to="/Salon">Salón</Link>
             </div>
-            <Menu2 time={time} showModal={showModal} closeModal={closeModal} tableNumber={tableNumber} />
+            <Menu time={time} showModal={showModal} closeModal={closeModal} tableNumber={tableNumber} />
             <section className=' border-8 border-x-gray-100  h-2/3  w-2/3 flex max-h-fit flex-col p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
                 <div className=' justify-between flex flex-row-reverse'>
                     <div className='font-bold text-2xl mb-2'>Mesa {tableNumber}
@@ -98,8 +89,8 @@ export const TableInfo = () => {
                                             < ul className=' text-base grid gap-4 grid-cols-[13rem,1rem,3rem,4em]' >
                                                 <li>-{product.name} </li>
                                                 <li className='text-center'>{product.quantity}</li>
-                                                <li className='text-right'>${formatAmounts(product.price)}</li>
-                                                <li className='text-right'> ${formatAmounts(product.price * product.quantity)}</li>
+                                                <li className='text-right'>${product.price.toLocaleString('de-DE')}</li>
+                                                <li className='text-right'> ${(product.price * product.quantity).toLocaleString('de-DE')}</li>
                                             </ul>
                                             : null
                                     ))}
@@ -110,13 +101,13 @@ export const TableInfo = () => {
                             <div className='w-full border-t mt-2 border-black ' >
                                 <ul className='w-full  '>
                                     <li className='mt-4 grid grid-cols-2 gap-10   '>Sub-Total:
-                                        <p className='text-right'>${formatAmounts(getBill())} </p>
+                                        <p className='text-right'>${getBill().toLocaleString('de-DE')} </p>
                                     </li>
                                     <li className='  grid grid-cols-2  '>Propina:
-                                        <p className='text-right'>${formatAmounts(getBill() * 0.1)} </p>
+                                        <p className='text-right'>${(getBill() * 0.1).toLocaleString('de-DE')} </p>
                                     </li>
                                     <li className=' font-bold grid grid-cols-2   '>Total:
-                                        <p className='text-right'>${formatAmounts(Math.floor((getBill() * 1.1)))} </p>
+                                        <p className='text-right'>${(Math.floor((getBill() * 1.1))).toLocaleString('de-DE')} </p>
                                     </li>
                                 </ul>
                             </div>
