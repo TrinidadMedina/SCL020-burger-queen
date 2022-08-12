@@ -3,9 +3,6 @@ import { Table } from '../components/Table'
 // import { tables } from '../data'
 import Clock from '../components/Clock'
 import { Order } from '../components/Order'
-import { db } from '../firebase/config'
-import { collection, doc, updateDoc, getDocs } from 'firebase/firestore'
-
 
 import { OrdersContext } from '../context/ordersContext.jsx'
 import { TablesContext } from '../context/TablesContext.jsx'
@@ -14,10 +11,9 @@ import { ButtonSignOut } from '../components/ButtonSignOut'
 
 export const Diner = () => {
     let navigate = useNavigate();
-    const { orders, getOrders } = useContext(OrdersContext)
+    const { orders, getOrders, updateOrders } = useContext(OrdersContext)
     // const [allTables, setAllTables] = useState(tables) //guarda todas las tables con su estado
     const { allTables, getTables } = useContext(TablesContext)
-    console.log(allTables)
     useEffect(() => {
         getOrders()
         getTables()
@@ -30,20 +26,10 @@ export const Diner = () => {
         navigate(`/TableInfo/${number}`)
     }
 
-    const handleDelivery = async (id) => {
+    const handleDelivery = (id) => {
         const confirmAlert = confirm('¿Entregado?');
         if (confirmAlert === true) {
-            const newOrders = [...orders];
-            const order = newOrders.find((order) => order.orderId === id);
-            order.estado = "Entregada"
-            const allOrders = await getDocs(collection(db, "orders"));
-            allOrders.forEach((item) => {
-                if (item.data().orderId == id) {
-                    updateDoc(doc(db, "orders", item.id), {
-                        estado: order.estado
-                    })
-                }
-            })
+            updateOrders("Entregada", id)
         }
     }
 

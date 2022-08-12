@@ -79,7 +79,6 @@ export function Menu({ showModal, closeModal, tableNumber, time }) {
     const handleClikCategory = (e) => {
         const cat = e.currentTarget;
         const panel = cat.nextElementSibling;
-        console.log(panel)
         panel.style.display === "block" ? panel.style.display = "none" : panel.style.display = "block";
     }
 

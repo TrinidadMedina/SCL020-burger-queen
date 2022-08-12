@@ -2,13 +2,10 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Menu } from './Menu';
 import { OrdersContext } from '../context/ordersContext';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { collection, doc, updateDoc, getDocs } from 'firebase/firestore'
-import { db } from '../firebase/config'
-
 
 export const TableInfo = () => {
     const { tableNumber } = useParams();
-    const { orders, getOrders } = useContext(OrdersContext)
+    const { orders, getOrders, updateOrders } = useContext(OrdersContext)
     const [showModal, setShowModal] = useState(false);
     const [tableOrders, setTableOrders] = useState([]);
     const [time, setTime] = useState()   //P
@@ -20,27 +17,16 @@ export const TableInfo = () => {
         setTableOrders(selectedTableOrders)
     }, [])
 
-    const handleReset = async (ordersTable) => {
-        /*       const newTables = [...allTables];
-            const selected = newTables.find((table) => table.number === number);
-              selected.active = false; */
+    const handleReset = (ordersTable) => {
         const confirmAlert = confirm('¿Cerrar Mesa?');
         if (confirmAlert === true) {
-            const ordersFirestore = await getDocs(collection(db, "orders"));
             ordersTable.forEach((order) => {
-                order.estado = "Cerrada"
-                ordersFirestore.forEach((item) => {
-                    if (item.data().orderId == order.orderId) {
-                        updateDoc(doc(db, "orders", item.id), {
-                            estado: order.estado
-                        })
-                    }
-                })
+                updateOrders("Cerrada", order.docId)
             })
-            navigate('/Salon')
+            navigate('/Salon')    
         }
     }
-
+    
     const handleClickAdd = () => {
         const time = new Date();
         let hh = time.getHours();

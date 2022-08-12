@@ -22,37 +22,22 @@ export const SetOrders = ({ children }) => {
          const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
          onSnapshot(q, (data) => {
              return setOrders(data.docs.map((order) => {
-                 return ({ ...order.data() })
+                 return ({ ...order.data(), docId: order.id })
              }))
          })
      };
 
-/*     useEffect(() => { 
-        console.log('context')
-        const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
-        //const unsubscribe = 
-        onSnapshot(q, snap => {
-          const data = snap.docs.map(doc => doc.data())
-          setOrders(data)
-        });
-        //return () => unsubscribe()
-    }, []); */
-
-/*      useEffect(() => {
-        const unsubscribe = onSnapShot(q, (currentUser) => {
-          console.log(currentUser);
-          setUser(currentUser);
-        });
-        return () => {
-          unsubscribe();
-        };
-      }, []); */
-
+    const updateOrders = (estado, id) =>{
+        updateDoc(doc(db, "orders", id), {
+            estado: estado
+        })
+    }
 
     return (
         <OrdersContext.Provider value={{
             orders,
-            getOrders
+            getOrders,
+            updateOrders
         }}>
             {children}
         </OrdersContext.Provider>
