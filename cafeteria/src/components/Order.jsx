@@ -1,10 +1,11 @@
 import React from 'react'
 import { Cronometro } from './Cronometro'
+
 export function Order({ order, handleDelivery }) {
 
   const handleClickDelivery = () => {
     if (order.estado == "Listo") {
-      handleDelivery(order.orderId)
+      handleDelivery(order.docId)
     }
   }
 
