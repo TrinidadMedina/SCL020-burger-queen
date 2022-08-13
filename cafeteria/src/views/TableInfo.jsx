@@ -41,7 +41,7 @@ export const TableInfo = () => {
     const getProducts = () => {
         const products = [];
         for (let i = 0; i < tableOrders.length; i++) {
-            products.push(...tableOrders[i].products)
+            products.push(...tableOrders[i].products) //agregar el numero de orden para que no se repita la key en caso de pedir dos veces el mismo producto en diferentes ordenes
         }
         return products   // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
     }
