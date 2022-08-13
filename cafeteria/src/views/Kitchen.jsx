@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react'
-import Clock from '../components/Clock'
+import {Clock} from '../components/Clock'
 import { OrderKitchen } from '../components/OrderKitchen'
 import { OrdersContext } from '../context/ordersContext.jsx'
 import { ButtonSignOut } from '../components/ButtonSignOut'
@@ -26,7 +26,7 @@ export function Kitchen() {
       <main className="flex justify-around m-10 flex-wrap">
         {orders.map((order) => (
           order.estado === "Preparando" &&
-          <OrderKitchen handleReady={handleReady} order={order} />
+          <OrderKitchen key={order.orderId} handleReady={handleReady} order={order} />
         ))}
       </main>
     </div>

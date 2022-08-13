@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { OrdersContext } from '../context/ordersContext.jsx';
+import React, { useState, useEffect} from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import { Timestamp, addDoc, collection, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config.js';
 import flecha from '../flecha.png';
 import { useNavigate } from 'react-router-dom';
 
-
 export function Menu({ showModal, closeModal, tableNumber, time }) {
+    
     const [food, setFood] = useState([]);
     let navigate = useNavigate()
+
     let unique = [];
     if (time >= 12 && time <= 15) {
         const prod = food.filter(item => item.status != "breakfast")
@@ -21,6 +21,7 @@ export function Menu({ showModal, closeModal, tableNumber, time }) {
         const prod = food.filter(item => item.status === "always")
         unique = Array.from(new Set(prod.map((item) => item.category)))
     }
+
     const callback = (data) => {
         return setFood(data.docs.map((product) => {
             return ({ ...product.data() })
@@ -68,12 +69,10 @@ export function Menu({ showModal, closeModal, tableNumber, time }) {
                 })
                 closeModal()
                 navigate('/Salon')
-
             }
         } else {
             alert("No tienes ningún producto seleccionado")
         }
-
     }
 
     const handleClikCategory = (e) => {
@@ -84,7 +83,6 @@ export function Menu({ showModal, closeModal, tableNumber, time }) {
 
     return (
         <>
-
             {showModal ? (
                 <>
                     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto max-h-2/3 fixed inset-0 z-50 outline-none focus:outline-none">
@@ -105,7 +103,7 @@ export function Menu({ showModal, closeModal, tableNumber, time }) {
                                 </div>
                                 <div className="relative p-6 flex-auto">
                                     {unique.map((category) => (
-                                        <div className="w-full">
+                                        <div key={category} className="w-full">
                                             <button className="flex bg-gray-200 text-lg cursor-pointer p-2 text-left w-full hover:bg-gray-300 justify-between" onClick={handleClikCategory} key={category}>
                                                 <p className="">{category}</p>
                                                 <img src={flecha} className="w-4"></img>
@@ -113,7 +111,7 @@ export function Menu({ showModal, closeModal, tableNumber, time }) {
                                             <div className="bg-white hidden overflow-hidden px-1 text-base">
                                                 {food.map((product) =>
                                                     product.category === category ?
-                                                        <div className="grid grid-cols-3 gap-4 p-1" >
+                                                        <div key={product.name} className="grid grid-cols-3 gap-4 p-1" >
                                                             <span className="w-60 self-center">{product.name}</span>
                                                             <span className="w-10 self-center">${product.price.toLocaleString('de-DE')}</span>
                                                             <div className="justify-self-end">

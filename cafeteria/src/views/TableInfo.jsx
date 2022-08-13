@@ -5,10 +5,10 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 
 export const TableInfo = () => {
     const { tableNumber } = useParams();
-    const { orders, getOrders, updateOrders } = useContext(OrdersContext)
+    const { orders, getOrders, updateOrders } = useContext(OrdersContext);
     const [showModal, setShowModal] = useState(false);
     const [tableOrders, setTableOrders] = useState([]);
-    const [time, setTime] = useState()   //P
+    const [time, setTime] = useState();
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -33,6 +33,7 @@ export const TableInfo = () => {
         setTime(hh)
         setShowModal(true)
     }
+
     const closeModal = () => {
         setShowModal(false)
     }
@@ -44,14 +45,13 @@ export const TableInfo = () => {
         }
         return products   // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
     }
+    const categories = Array.from(new Set(getProducts().map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
 
     const getBill = () => {
         const prices = getProducts().map((pro) => { return pro.price * pro.quantity })
         const total = prices.reduce((a, b) => { return a + b })
         return total
     }
-    const categories = Array.from(new Set(getProducts().map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
-
 
     return (
         <div className='w-screen h-screen position:relative '>
@@ -67,12 +67,12 @@ export const TableInfo = () => {
                 <article className="flex overflow-auto ">
                     <div className='w-auto  '>
                         {categories.map((category) => (
-                            <div className="">
+                            <div key={category} className="">
                                 <p className=' font-bold'> {category}</p>
                                 <ul className='w-full '>
                                     {getProducts().map((product) => (
                                         category == product.category ?
-                                            < ul className=' text-base grid gap-4 grid-cols-[13rem,1rem,3rem,4em]' >
+                                            < ul key={product.name} className=' text-base grid gap-4 grid-cols-[13rem,1rem,3rem,4em]' >
                                                 <li>-{product.name} </li>
                                                 <li className='text-center'>{product.quantity}</li>
                                                 <li className='text-right'>${product.price.toLocaleString('de-DE')}</li>
