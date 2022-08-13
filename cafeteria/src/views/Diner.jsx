@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Table } from '../components/Table'
 import {Clock} from '../components/Clock'
 import { Order } from '../components/Order'
 
@@ -43,8 +42,8 @@ export const Diner = () => {
             </nav>
             <div className="grid gap-2 grid-cols-3 grid-rows-2 place-items-center w-4/5 p-4 h-2/5  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 {allTables.map((table) =>
-                    <div key={table.number} className="w-20 h-20" onClick={() => { activateTables(table.number) }}>
-                        <Table table={table} />
+                    <div key={table.number} className = {table.active ? " p-4 w-20 h-20 bg-blue-700 shadow-lg text-blue-200 rounded-lg overflow-hidden" : " p-4 w-20 h-20 bg-gray-300	text-gray-800 shadow-lg rounded-lg overflow-hidden"} onClick={() => { activateTables(table.number) }}>
+                            <h1 className="text-4xl font-bold text-right">{table.number}</h1>
                     </div>)}
             </div>
             <div className='bg-gray-300 overflow-auto flex  h-2/6 p-8 w-10/12 py-4 px-3 my-4  mx-auto  shadow-lg rounded-lg '>
@@ -56,4 +55,8 @@ export const Diner = () => {
         </div >
     )
 }
+
+{/* <div className={table.active ? " p-4 w-20 h-20 bg-blue-700 shadow-lg text-blue-200 rounded-lg overflow-hidden" : " p-4 w-20 h-20 bg-gray-300	text-gray-800 shadow-lg rounded-lg overflow-hidden"}>
+<h1 className="text-4xl font-bold text-right">{table.number}</h1>
+</div> */}
 
