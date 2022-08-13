@@ -18,7 +18,7 @@ export function Order({ order, handleDelivery }) {
       <div className=" w-60 flex bg-white flex-col rounded shadow-lg">
         <p className='font-bold   self-center mb-3 text-sm '> {order.orderId.slice(8, 12)}</p>
         {order.products.map((product) => (
-          <li className="flex justify-between font-normal list-none  px-2">
+          <li key={order.orderId} className="flex justify-between font-normal list-none  px-2">
             <p> {product.name}</p>
             <p>{product.quantity}</p>
           </li>
