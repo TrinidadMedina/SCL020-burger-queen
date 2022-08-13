@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import {Clock} from '../components/Clock'
 import { Order } from '../components/Order'
-
 import { OrdersContext } from '../context/ordersContext.jsx'
 import { TablesContext } from '../context/TablesContext.jsx'
 import { useNavigate } from "react-router-dom";
@@ -10,7 +9,7 @@ import { ButtonSignOut } from '../components/ButtonSignOut'
 export const Diner = () => {
     let navigate = useNavigate();
     const { orders, getOrders, updateOrders } = useContext(OrdersContext)
-    const { allTables, getTables } = useContext(TablesContext)
+    const { allTables, getTables, updateTables } = useContext(TablesContext)
 
     useEffect(() => {
         getOrders()
@@ -18,11 +17,8 @@ export const Diner = () => {
     }, [])
 
     const activateTables = (number) => {
-        const newTables = [...allTables]
-        const newTable = newTables.find((table) => table.number === number);
-        newTable.active = true;
-        getTables([...newTables]) //pa q se ponga verde
-        navigate(`/TableInfo/${number}`)
+        updateTables(true, number.toString())
+        navigate(`/Mesa/${number}`)
     }
 
     const handleDelivery = (id) => {
