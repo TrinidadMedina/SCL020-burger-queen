@@ -1,28 +1,31 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Menu } from './Menu';
 import { OrdersContext } from '../context/ordersContext';
+import { TablesContext } from '../context/TablesContext.jsx'
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
-export const TableInfo = () => {
+export const Table = () => {
     const { tableNumber } = useParams();
     const { orders, getOrders, updateOrders } = useContext(OrdersContext);
+    const { updateTables } = useContext(TablesContext)
     const [showModal, setShowModal] = useState(false);
     const [tableOrders, setTableOrders] = useState([]);
     const [time, setTime] = useState();
     let navigate = useNavigate();
 
     useEffect(() => {
-        getOrders()
-        const selectedTableOrders = orders.filter((order) => { return order.table == tableNumber && order.estado !== "Cerrada" })
-        setTableOrders(selectedTableOrders)
+        getOrders();
+        const selectedTableOrders = orders.filter((order) => { return order.table == tableNumber && order.estado !== "Cerrada" });
+        setTableOrders(selectedTableOrders);
     }, [])
 
-    const handleReset = (ordersTable) => {
+    const handleReset = () => {
         const confirmAlert = confirm('¿Cerrar Mesa?');
         if (confirmAlert === true) {
-            ordersTable.forEach((order) => {
+            tableOrders.forEach((order) => {
                 updateOrders("Cerrada", order.docId)
             })
+            updateTables(false, tableNumber)
             navigate('/Salon')    
         }
     }
@@ -102,7 +105,7 @@ export const TableInfo = () => {
                 </article>
             </section >
             <div className="flex justify-center ">
-                <button className=" h-14 w-20 bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => { handleReset(tableOrders) }}> CERRAR MESA</button>
+                <button className=" h-14 w-20 bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={handleReset}> CERRAR MESA</button>
                 <button
                     className="h-14 w-20  bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"

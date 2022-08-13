@@ -5,7 +5,7 @@ import { Login } from './views/Login';
 import { Route, Routes } from "react-router-dom";
 import { SetOrders } from './context/SetOrders';
 import { SetTables } from './context/SetTables';
-import { TableInfo } from './views/TableInfo';
+import { Table } from './views/Table';
 import { AuthContextProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
@@ -18,7 +18,7 @@ export function App() {
                         <Route exact path='/' element={<Login />} />
                         <Route exact path="Cocina" element={<ProtectedRoute><Kitchen /></ProtectedRoute>} />
                         <Route exact path="Salon" element={<ProtectedRoute><Diner /></ProtectedRoute>} />
-                        <Route exact path="TableInfo/:tableNumber" element={<ProtectedRoute><TableInfo /></ProtectedRoute>} />
+                        <Route exact path="Mesa/:tableNumber" element={<ProtectedRoute><Table /></ProtectedRoute>} />
                     </Routes>
                 </SetTables>
             </SetOrders>
