@@ -10,19 +10,21 @@ export const SetOrders = ({ children }) => {
     const [orders, setOrders] = useState([]);
 
     const getOrders = () => {
-         const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
-         onSnapshot(q, (data) => {
-             return setOrders(data.docs.map((order) => {
-                 return ({ ...order.data(), docId: order.id })
-             }))
-         })
-     };
+        const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
+        onSnapshot(q, (data) => {
+            return setOrders(data.docs.map((order) => {
+                return ({ ...order.data(), docId: order.id })
+            }))
+        })
+    };
 
-    const updateOrders = async (estado, id) =>{
+    const updateOrders = async (estado, id) => {
         updateDoc(doc(db, "orders", id), {
             estado: estado
         })
     }
+
+
 
     return (
         <OrdersContext.Provider value={{

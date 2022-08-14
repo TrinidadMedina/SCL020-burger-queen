@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from 'react'
-import {Clock} from '../components/Clock'
+import { Clock } from '../components/Clock'
 import { OrderKitchen } from '../components/OrderKitchen'
 import { OrdersContext } from '../context/ordersContext.jsx'
 import { ButtonSignOut } from '../components/ButtonSignOut'
+import { Confirm } from '../components/Confirm'
 
 export function Kitchen() {
 
@@ -22,6 +23,7 @@ export function Kitchen() {
       <header className="flex justify-between">
         <ButtonSignOut />
         <Clock />
+        <Confirm />
       </header>
       <main className="flex justify-around m-10 flex-wrap">
         {orders.map((order) => (
