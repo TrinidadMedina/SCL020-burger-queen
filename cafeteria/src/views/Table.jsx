@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Menu } from './Menu';
 import { OrdersContext } from '../context/ordersContext';
 import { TablesContext } from '../context/TablesContext.jsx'
+import { Confirm } from '../components/Confirm';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
 export const Table = () => {
@@ -9,6 +10,7 @@ export const Table = () => {
     const { orders, getOrders, updateOrders } = useContext(OrdersContext);
     const { updateTables } = useContext(TablesContext)
     const [showModal, setShowModal] = useState(false);
+    const [showConfirmReset, setShowConfirmReset] = useState(false);
     const [tableOrders, setTableOrders] = useState([]);
     const [time, setTime] = useState();
     let navigate = useNavigate();
@@ -19,17 +21,18 @@ export const Table = () => {
         setTableOrders(selectedTableOrders);
     }, [])
 
-    const handleReset = () => {
-        const confirmAlert = confirm('¿Cerrar Mesa?');
-        if (confirmAlert === true) {
-            tableOrders.forEach((order) => {
-                updateOrders("Cerrada", order.docId)
-            })
-            updateTables(false, tableNumber)
-            navigate('/Salon')    
-        }
+    const openConfirm = () => {
+        setShowConfirmReset(true)
     }
-    
+
+    const handleReset = () => {
+        tableOrders.forEach((order) => {
+            updateOrders("Cerrada", order.docId)
+        })
+        updateTables(false, tableNumber)
+        navigate('/Salon')
+    }
+
     const handleClickAdd = () => {
         const time = new Date();
         let hh = time.getHours();
@@ -62,6 +65,7 @@ export const Table = () => {
                 <Link to="/Salon">Salón</Link>
             </div>
             <Menu time={time} showModal={showModal} closeModal={closeModal} tableNumber={tableNumber} />
+            <Confirm showConfirmReset={showConfirmReset} setShowConfirmReset={setShowConfirmReset} handleReset={handleReset} />
             <section className=' border-8 border-x-gray-100  h-2/3  w-2/3 flex max-h-fit flex-col p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
                 <div className=' justify-between flex flex-row-reverse'>
                     <div className='font-bold text-2xl mb-2'>Mesa {tableNumber}
@@ -105,7 +109,7 @@ export const Table = () => {
                 </article>
             </section >
             <div className="flex justify-center ">
-                <button className=" h-14 w-20 bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={handleReset}> CERRAR MESA</button>
+                <button className=" h-14 w-20 bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={openConfirm}> CERRAR MESA</button>
                 <button
                     className="h-14 w-20  bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"

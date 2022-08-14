@@ -11,12 +11,12 @@ export const SetTables = ({ children }) => {
         const q = query(collection(db, 'tables'));
         onSnapshot(q, (data) => {
             return setTables(data.docs.map((table) => {
-                return ({ ...table.data()})
+                return ({ ...table.data() })
             }))
         })
     };
 
-    const updateTables = async (estado, id) =>{
+    const updateTables = async (estado, id) => {
         updateDoc(doc(db, 'tables', id), {
             active: estado
         })
@@ -34,3 +34,4 @@ export const SetTables = ({ children }) => {
 }
 
 // const q = query(collection(db, 'tables'), orderBy('number', 'desc'));
+
