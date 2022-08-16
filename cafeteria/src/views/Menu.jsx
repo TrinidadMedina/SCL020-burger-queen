@@ -9,13 +9,14 @@ import { Confirm } from '../components/Confirm.jsx';
 export function Menu({ showModal, closeModal, tableNumber, time }) {
     const [showConfirm, setShowConfirm] = useState(false)
     const [food, setFood] = useState([]);
+    const [observations, setObservations] = useState("");
     let navigate = useNavigate()
 
     let unique = [];
     if (time >= 12 && time <= 15) {
         const prod = food.filter(item => item.status != "breakfast")
         unique = Array.from(new Set(prod.map((item) => item.category)))
-    } else if (time < 12 && time > 8) {
+    } else if (time <= 12 && time >= 8) {
         const prod = food.filter(item => item.status != "lunch")
         unique = Array.from(new Set(prod.map((item) => item.category)))
     } else {
@@ -64,7 +65,7 @@ export function Menu({ showModal, closeModal, tableNumber, time }) {
                 orderId: tableNumber + "-" + uuidv4(),
                 estado: "Preparando",
                 //meserx: "",
-                observaciones: "",
+                observaciones: observations,
             })
             food.forEach((product) => {
                 product.quantity = 0;
@@ -128,8 +129,8 @@ export function Menu({ showModal, closeModal, tableNumber, time }) {
                                         </div>
                                     ))}
                                 </div>
-                                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                    <input type="text" />
+                                <div className="flex items-center justify-between p-6 border-t border-solid border-slate-200 rounded-b">
+                                    <input type="text" placeholder="Observaciones" onChange={(e) => setObservations(e.target.value)} />
                                     <button
                                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"

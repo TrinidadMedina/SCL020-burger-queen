@@ -37,12 +37,25 @@ export const Diner = () => {
                     <Clock />
                 </header>
             </nav>
-            <div className="grid gap-2 grid-cols-3 grid-rows-2 place-items-center w-4/5 p-4 h-3/6  mx-auto bg-[url('img/floor.png')]  bg-no-repeat shadow-lg rounded-lg  " >
+            <div className="grid gap-2 grid-cols-3 grid-rows-2 place-items-center w-4/5 p-2 h-3/6  mx-auto bg-[url('img/floor.png')]  bg-no-repeat shadow-lg rounded-lg  " >
                 {allTables.map((table, i) =>
                     i < 3 ?
-                        <div>
+                        <div id="tableWrapper" className='flex bg-orange-500 items-center justify-center w-full h-full' >
+
+                            <div id="chairWrapper" className='h-1/4  w-1/4 outline-2 outline  bg-slate-500  '>
+
+
+                            </div>
                             <div key={table.number} className={table.active ? " p-4 w-20 h-20 bg-blue-700 shadow-lg text-blue-200 rounded-lg overflow-hidden" : " p-4 w-20 h-20 bg-gray-300	text-gray-800 shadow-lg rounded-lg overflow-hidden"} onClick={() => { activateTables(table.number) }}>
                                 <h1 className="text-4xl font-bold text-right">{table.number}</h1>
+                            </div>
+
+                            <div className='h-2/5 w-1/4  outline-2 outline bg-slate-500 '>
+                                <div className='h-1/6 w-full outline-1 outline'></div>
+                                <div className='h-4/6 w-full outline-1 outline'>
+                                    <div className='w-1/12 h-full outline-dotted'></div>
+                                </div>
+                                <div className='h-1/6 w-full outline-1 outline'></div>
                             </div>
                         </div>
                         :
