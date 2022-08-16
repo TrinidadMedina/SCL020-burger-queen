@@ -36,6 +36,7 @@ export const Table = () => {
     const handleClickAdd = () => {
         const time = new Date();
         let hh = time.getHours();
+        console.log(hh)
         setTime(hh)
         setShowModal(true)
     }
