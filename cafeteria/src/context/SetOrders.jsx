@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { OrdersContext } from './ordersContext';
+import { OrdersContext } from './OrdersContext';
 import { db } from '../firebase/config'
 import { collection, query, onSnapshot, orderBy, updateDoc, getDoc, doc } from 'firebase/firestore'
 
