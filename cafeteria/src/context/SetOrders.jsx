@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { OrdersContext } from './ordersContext';
 import { db } from '../firebase/config'
 import { collection, query, onSnapshot, orderBy, updateDoc, getDoc, doc } from 'firebase/firestore'
-import { useEffect } from 'react';
-
 
 export const SetOrders = ({ children }) => {
 
@@ -23,8 +21,6 @@ export const SetOrders = ({ children }) => {
             estado: estado
         })
     }
-
-
 
     return (
         <OrdersContext.Provider value={{

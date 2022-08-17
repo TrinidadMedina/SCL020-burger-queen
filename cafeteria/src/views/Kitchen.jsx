@@ -1,30 +1,23 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, {useEffect, useContext} from 'react'
 import { Clock } from '../components/Clock'
 import { OrderKitchen } from '../components/OrderKitchen'
 import { OrdersContext } from '../context/ordersContext.jsx'
 import { ButtonSignOut } from '../components/ButtonSignOut'
-import { ModalConfirm } from '../components/Confirm'
 
 export function Kitchen() {
 
   const { orders, getOrders, updateOrders } = useContext(OrdersContext);
 
-
   useEffect(() => { getOrders() }, [])
-
-
-
     const handleReady = (id) => {
       updateOrders("Listo", id)
   }
-
 
   return (
     <div className="bg-zinc-50 h-screen w-screen">
       <header className="flex justify-between">
         <ButtonSignOut />
         <Clock />
-        
       </header>
       <main className="flex justify-around m-10 flex-wrap">
         {orders.map((order) => (
