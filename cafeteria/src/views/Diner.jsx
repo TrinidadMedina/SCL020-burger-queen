@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import { Clock } from '../components/Clock'
 import { Order } from '../components/Order'
-import { OrdersContext } from '../context/ordersContext.jsx'
+import { OrdersContext } from '../context/OrdersContext.jsx'
 import { TablesContext } from '../context/TablesContext.jsx'
 import { useNavigate } from "react-router-dom";
 import { ButtonSignOut } from '../components/ButtonSignOut'
