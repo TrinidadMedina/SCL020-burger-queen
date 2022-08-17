@@ -23,7 +23,7 @@ export const Diner = () => {
     }
 
     const handleDelivery = (id) => {
-            updateOrders("Entregada", id)
+        updateOrders("Entregada", id)
     }
 
     return (

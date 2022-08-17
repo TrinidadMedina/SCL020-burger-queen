@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ProductsContext } from './ProductsContext';
 import { db } from '../firebase/config'
-import { collection, query, onSnapshot, orderBy, updateDoc, getDocs, doc } from 'firebase/firestore'
+import { collection, query, onSnapshot} from 'firebase/firestore'
 
 export const SetProducts = ({ children }) => {
 
@@ -15,7 +15,6 @@ export const SetProducts = ({ children }) => {
             }))
         })
     };
-
 
     return (
         <TablesContext.Provider value={{

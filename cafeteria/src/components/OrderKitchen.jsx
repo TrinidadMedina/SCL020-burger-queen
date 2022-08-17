@@ -25,10 +25,20 @@ export function OrderKitchen({ order, handleReady }) {
         <ModalConfirm modal={modal} toggleConfirm={toggleConfirm} message={"¿Enviar a salón?"}/>
       </header>
 
-      <div className=" w-60 flex flex-col  h-48 justify-between rounded bg-white overflow-auto">
+      <div className=" w-60 flex flex-col h-48 justify-between rounded bg-white overflow-auto">
         <div className='flex flex-col'>
           <h1 className="font-bold self-center mb-3">{order.orderId.slice(8, 12)}</h1>
           {order.products.map((product) => (
+            product.name==="Promo almuerzo" || product.name==="Brunch"?
+            <>
+            <div key={order.docId} className="flex justify-between px-3">
+              <div >{product.name}</div>
+              <div >{product.quantity}</div>
+            </div>
+            <div className="text-sm">{product.comestible}</div>
+            <div className="text-sm">{product.bebestible}</div>
+            </>
+            : 
             <div key={order.docId} className="flex justify-between px-3">
               <div >{product.name}</div>
               <div >{product.quantity}</div>

@@ -16,7 +16,8 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
     let navigate = useNavigate()
 
     let unique = [];
-    if (time >= 12 && time <= 15) {
+    unique = Array.from(new Set(food.map((item) => item.category)))
+/*     if (time >= 12 && time <= 15) {
         const prod = food.filter(item => item.status != "breakfast")
         unique = Array.from(new Set(prod.map((item) => item.category)))
     } else if (time <= 12 && time >= 8) {
@@ -25,14 +26,13 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
     } else {
         const prod = food.filter(item => item.status === "always")
         unique = Array.from(new Set(prod.map((item) => item.category)))
-    }
+    } */
 
     const callback = (data) => {
         return setFood(data.docs.map((product) => {
             return ({ ...product.data() })
         }))
     }
-
     useEffect(() => {
         const getProducts = async () => {
             const q = query(collection(db, 'productos'));
@@ -45,8 +45,76 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
         const newMenu = [...food];
         const product = newMenu.find((product) => product.name === name);
         product.quantity += 1;
+        
+        if(name==="Promo almuerzo"){
+              MySwal
+              .fire({
+                title: <p>Elige bebestible</p>,
+                  icon: 'question',
+                  showCancelButton: true,
+                  confirmButtonText: "Jugo",
+                  cancelButtonText: "Bebida",
+              })
+              .then(resultado => {
+                  if (resultado.value) {
+                    product.bebestible.push("Jugo")
+                  } else {
+                    product.bebestible.push("Bebida")
+                  }
+                  MySwal
+                  .fire({
+                    title: <p>Elige comestible</p>,
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: "Ensalada",
+                      cancelButtonText: "Sopa",
+                  })
+                  .then(resultado => {
+                      if (resultado.value) {
+                        product.comestible.push("Ensalada")
+                      } else {
+                        product.comestible.push("Sopa")
+                      }
+                  });
+              });
+
+        }
+        if(name==="Brunch"){
+              MySwal
+              .fire({
+                title: <p>Elige bebestible</p>,
+                  icon: 'question',
+                  showCancelButton: true,
+                  confirmButtonText: "Té",
+                  cancelButtonText: "Café",
+              })
+              .then(resultado => {
+                  if (resultado.value) {
+                    product.bebestible="Té"
+                  } else {
+                    product.bebestible="Café"
+                  }
+                  MySwal
+                  .fire({
+                    title: <p>Elige comestible</p>,
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: "Tostadas palta",
+                      cancelButtonText: "Tostadas huevo",
+                  })
+                  .then(resultado => {
+                      if (resultado.value) {
+                        product.comestible.push("Tostadas con huevo")
+                      } else {
+                        product.comestible.push("Tostadas con palta")
+                      }
+                  });
+              });
+        }
         setFood(newMenu);
     }
+
+    console.log(food)
 
     const handleRest = (name) => {
         const newMenu = [...food];
