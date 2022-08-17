@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 
 export function Login() {
+
+  const MySwal = withReactContent(Swal)
+
   let navigate = useNavigate();
   const { login } = UserAuth();
 
@@ -24,19 +29,29 @@ export function Login() {
     } catch (error) {
       switch (error.code) {
         case 'auth/invalid-email':
-          alert('Ingresa un correo válido: ejemplo@hotmail.com');
+          MySwal.fire({
+            title: <p>Ingresa un correo válido: ejemplo@hotmail.com</p>
+          })
           break
         case 'auth/missing-email':
-          alert('Debes ingresar un correo');
+          MySwal.fire({
+            title: <p>Debes ingresar un correo</p>
+          })
           break
         case 'auth/internal-error':
-          alert('Debes llenar todos los campos');
+          MySwal.fire({
+            title: <p>Debes llenar todos los campos</p>
+          })
           break
         case 'auth/wrong-password':
-          alert('Contraseña incorrecta');
+          MySwal.fire({
+            title: <p>Contraseña incorrecta</p>
+          })
           break
         case 'auth/user-not-found':
-          alert('Ups! aún no tienes cuenta, regístrate');
+          MySwal.fire({
+            title: <p>Ups! aún no tienes cuenta, regístrate</p>
+          })
           break
         default:
       }

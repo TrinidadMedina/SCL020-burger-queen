@@ -5,8 +5,11 @@ import { db } from '../firebase/config.js';
 import flecha from '../flecha.png';
 import { useNavigate } from 'react-router-dom';
 import { ModalConfirm } from './Confirm.jsx';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export function Menu({ showMenu, closeMenu, tableNumber, time }) {
+    const MySwal = withReactContent(Swal)
     const [modal, setModal] = useState(false)
     const [food, setFood] = useState([]);
     const [observations, setObservations] = useState("");
@@ -57,7 +60,9 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
         if (products.length != 0) {
             setModal(!modal)}
         else {
-            alert("No tienes ningún producto seleccionado")
+            MySwal.fire({
+                title: <p>No tienes ningún producto seleccionado</p>
+              })
         }
     }
 
