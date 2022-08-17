@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Menu } from '../components/Menu';
-import { OrdersContext } from '../context/ordersContext';
+import { OrdersContext } from '../context/OrdersContext';
 import { TablesContext } from '../context/TablesContext.jsx'
 import { ModalConfirm } from '../components/Confirm';
 import { useParams, Link, useNavigate } from 'react-router-dom';

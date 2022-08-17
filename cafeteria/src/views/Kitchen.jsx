@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react'
 import { Clock } from '../components/Clock'
 import { OrderKitchen } from '../components/OrderKitchen'
-import { OrdersContext } from '../context/ordersContext.jsx'
+import { OrdersContext } from '../context/OrdersContext.jsx'
 import { ButtonSignOut } from '../components/ButtonSignOut'
 
 export function Kitchen() {
