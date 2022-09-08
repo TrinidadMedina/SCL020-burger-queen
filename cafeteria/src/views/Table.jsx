@@ -59,6 +59,7 @@ export const Table = () => {
         }
         return products   // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
     }
+    
     const categories = Array.from(new Set(getProducts().map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
 
     const getBill = () => {
@@ -74,17 +75,14 @@ export const Table = () => {
             </div>
             <Menu time={time} showMenu={showMenu} closeMenu={closeMenu} tableNumber={tableNumber} />
             <ModalConfirm modal={modal} toggleConfirm={toggleConfirm} message={"¿Cerrar mesa?"} />
-            <section className=' border-8 border-x-gray-100  h-2/3  w-2/3 flex max-h-fit flex-col p-8 py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg '>
-                <div className=' justify-between flex flex-row-reverse'>
-                    <div className='font-bold text-2xl mb-2'>Mesa {tableNumber}
-                    </div>
-                </div>
-                <article className="flex overflow-auto ">
-                    <div className='w-auto  '>
+            <section className=' border-8 border-x-gray-100 h-2/3 w-1/2 flex max-h-fit flex-col py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg items-center'>
+                <div className='font-bold text-2xl mb-2'>Mesa {tableNumber}</div>
+                <article className="flex overflow-auto p-4">
+                    <div className=''>
                         {categories.map((category) => (
-                            <div key={category} className="">
+                            <div key={category}>
                                 <p className=' font-bold'> {category}</p>
-                                <ul className='w-full '>
+                                <ul className='w-auto '>
                                     {getProducts().map((product) => (
                                         category == product.category ?
                                             < ul key={product.name} className=' text-base grid gap-4 grid-cols-[13rem,1rem,3rem,4em]' >
