@@ -11,7 +11,7 @@ export function Clock() {
     }, []);
 
     return (
-        <div className=' font-bold text-center px-3 m-4  bg-white shadow-lg rounded-lg mr-10 ' >
+        <div className=' font-bold text-center p-3 m-4 bg-white shadow-lg rounded-lg mr-10 ' >
             Hora: {clockState}
         </div>
     )
