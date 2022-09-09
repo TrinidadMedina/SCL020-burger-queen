@@ -27,14 +27,14 @@ export const Diner = () => {
     }
 
     return (
-        <div className="w-full h-full bg-[url('diner.png')] bg-zinc-50">
+        <div className="w-full h-full  bg-zinc-50">
             <nav>
                 <header className="flex justify-between">
                     <ButtonSignOut />
                     <Clock />
                 </header>
             </nav>
-            <div className="grid gap-2 grid-cols-3 grid-rows-2 place-items-center w-4/5 p-2 h-3/6  mx-auto bg-[url('img/floor.png')] bg-cover  bg-no-repeat shadow-lg rounded-lg  " >
+            <div className="grid gap-2 grid-cols-3 grid-rows-2 place-items-center w-4/5 p-2 h-3/6  mx-auto bg-[url('img/floor.png')] bg-cover  bg-no-repeat shadow-lg rounded-lg bg-opacity-10 " >
                 {allTables.map((table, i) =>
                     i < allTables.length / 2 ?
                         <div id="tableWrapper" className='flex items-center justify-center w-full h-full' >
@@ -107,7 +107,7 @@ export const Diner = () => {
                         </div>
                 )}
             </div>
-            <div className='bg-gray-300 overflow-auto flex h-2/6 w-10/12 py-1 px-3 my-4 mx-auto shadow-lg rounded-lg '>
+            <div className='bg-gray-300 overflow-auto flex h-2/6 w-10/12 px-3 my-4 mx-auto shadow-lg rounded-lg '>
                 {orders.map((order) => (
                     order.estado !== "Entregada" && order.estado !== "Cerrada" ?
                         <Order key={order.orderId} handleDelivery={handleDelivery} order={order} /> : null
