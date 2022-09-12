@@ -34,7 +34,7 @@ export function ModalConfirm({ modal, toggleConfirm, message }) {
                         </div>
                     </div>
                 </div>
-                <div onClick={()=>{console.log("hola")}} className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
             </>
         );
 }
