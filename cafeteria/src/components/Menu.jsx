@@ -17,7 +17,7 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
 
     let unique = [];
     unique = Array.from(new Set(food.map((item) => item.category)))
-/*     if (time >= 12 && time <= 15) {
+    if (time >= 12 && time <= 15) {
         const prod = food.filter(item => item.status != "breakfast")
         unique = Array.from(new Set(prod.map((item) => item.category)))
     } else if (time <= 12 && time >= 8) {
@@ -26,7 +26,7 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
     } else {
         const prod = food.filter(item => item.status === "always")
         unique = Array.from(new Set(prod.map((item) => item.category)))
-    } */
+    }
 
     const callback = (data) => {
         return setFood(data.docs.map((product) => {

@@ -14,12 +14,12 @@ export function Kitchen() {
   }
 
   return (
-    <div className="bg-zinc-50">
+    <div className="bg-zinc-50 h-full">
       <header className="flex justify-between">
         <ButtonSignOut />
         <Clock />
       </header>
-      <main className="flex mx-auto flex-wrap px-12" >
+      <main className="flex mx-auto flex-wrap px-12 justify-center" >
         {orders.map((order) => (
           order.estado === "Preparando" &&
           <>

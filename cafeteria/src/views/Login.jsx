@@ -4,14 +4,11 @@ import { UserAuth } from '../context/AuthContext';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-
 export function Login() {
 
-  const MySwal = withReactContent(Swal)
-
+  const MySwal = withReactContent(Swal);
   let navigate = useNavigate();
   const { login } = UserAuth();
-
   const [email, setEmail] = useState("trinidad@gmail.com")
   const [password, setPassword] = useState("12345678")
   const [profile, setProfile] = useState("")
@@ -61,7 +58,7 @@ export function Login() {
   return (
     <div className='flex h-screen w-screen items-center justify-center'>
       <form onSubmit={handleSubmit} className="h-2/5 w-2/5 bg-white flex flex-col m-3 shadow-lg rounded-lg p-4 items-center">
-        <h1 className='font-bold p-4 text-xl'>Cafetería</h1>
+        <h1 className='font-bold p-4 text-xl'>Café del Barrio</h1>
         <div className='grid grid-cols-2 gap-4 p-7'>
           <label className='mx-16' htmlFor="email">Email: </label>
           <input type="email" placeholder="Your email" value="trinidad@gmail.com" onChange={(e) => setEmail(e.target.value)} />
