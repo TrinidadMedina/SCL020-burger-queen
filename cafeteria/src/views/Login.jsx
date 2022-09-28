@@ -9,8 +9,8 @@ export function Login() {
   const MySwal = withReactContent(Swal);
   let navigate = useNavigate();
   const { login } = UserAuth();
-  const [email, setEmail] = useState("trinidad@gmail.com")
-  const [password, setPassword] = useState("12345678")
+  const [email, setEmail] = useState("admin@cafedelbarrio.cl")
+  const [password, setPassword] = useState("123456")
   const [profile, setProfile] = useState("")
 
   const handleSubmit = async (e) => {
@@ -56,19 +56,18 @@ export function Login() {
   }
 
   return (
-    <div className='flex h-screen w-screen items-center justify-center'>
-      <form onSubmit={handleSubmit} className="h-2/5 w-2/5 bg-white flex flex-col m-3 shadow-lg rounded-lg p-4 items-center">
-        <h1 className='font-bold p-4 text-xl'>Café del Barrio</h1>
-        <div className='grid grid-cols-2 gap-4 p-7'>
-          <label className='mx-16' htmlFor="email">Email: </label>
-          <input type="email" placeholder="Your email" value="trinidad@gmail.com" onChange={(e) => setEmail(e.target.value)} />
-          <label className='mx-16' htmlFor="password">Contraseña: </label>
-          <input type="password" placeholder="Your password" value="12345678" onChange={(e) => setPassword(e.target.value)} />
-          <input type='submit' value='Cocina' onClick={() => { setProfile('cocina') }} className='bg-gray-500  hover:bg-blue-700 text-white  text-center font-bold py-2 px-4 rounded' />
-          <input type='submit' value='Salón' onClick={() => { setProfile('salon') }} className='bg-gray-500  hover:bg-blue-700 text-white  text-center font-bold py-2 px-4 rounded' />
+    <div className='flex h-screen w-screen items-center justify-center bg-[#F3F3ED] '>
+      < form onSubmit={handleSubmit} className="text-dark-green flex flex-col drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)]  bg-[#F3F3ED] rounded-lg items-center p-10" > { /* bg-[#F3F3ED] */}
+        <img className='w-2/6 py-2' src="../img/logo.png" alt="" />
+        <div className='grid grid-cols-2 gap-4 p-7 h-full w-full'>
+          <label className=' text-dark-green font-bold' htmlFor="email">Email: </label>
+          <input type="email" className=' shadow appearance-none border-none rounded w-full py-2 px-3' placeholder="Your email" value="admin@cafedelbarrio.cl" onChange={(e) => setEmail(e.target.value)} />
+          <label className=' font-bold' htmlFor="password">Contraseña: </label>
+          <input type="password" className='shadow appearance-none border-none rounded w-full py-2 px-3' placeholder="Your password" value="123456" onChange={(e) => setPassword(e.target.value)} />
+          <input type='submit' value='Cocina' onClick={() => { setProfile('cocina') }} className='bg-dark-green hover:bg-orange-10 text-white  text-center font-bold py-2 px-4 rounded' />
+          <input type='submit' value='Salón' onClick={() => { setProfile('salon') }} className='bg-dark-green  hover:bg-orange-10 text-white  text-center font-bold py-2 px-4 rounded' />
         </div>
-      </form>
-    </div>
+      </form >
+    </div >
   )
 }
-

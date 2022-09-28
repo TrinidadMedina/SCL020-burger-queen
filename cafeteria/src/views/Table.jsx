@@ -26,12 +26,12 @@ export const Table = () => {
     }
 
     const toggleConfirm = (status) => {
-        if(status){
-          handleReset()
-        }else{
-          toggleModal()
+        if (status) {
+            handleReset()
+        } else {
+            toggleModal()
         }
-      }
+    }
 
     const handleReset = () => {
         tableOrders.forEach((order) => {
@@ -59,7 +59,7 @@ export const Table = () => {
         }
         return products   // [{name:"Expreso", category:"cafes", status:"always",quantity:"1"...},{...},{...},{...}]
     }
-    
+
     const categories = Array.from(new Set(getProducts().map(item => item.category))); // ["cafes","sandwiches", "Pastelería"]
 
     const getBill = () => {
@@ -69,14 +69,14 @@ export const Table = () => {
     }
 
     return (
-        <div className='w-screen h-screen position:relative '>
-            <div className=" content-center bg-gray-500 hover:bg-blue-700 text-white font-bold rounded w-fit p-3 m-4">
+        <div className='w-screen h-screen position:relative border bg-orange-90 '>
+            <div className=" content-center bg-dark-green hover:bg-orange-1 text-white font-bold rounded w-fit p-3 m-4">
                 <Link to="/Salon">Salón</Link>
             </div>
             <Menu time={time} showMenu={showMenu} closeMenu={closeMenu} tableNumber={tableNumber} />
             <ModalConfirm modal={modal} toggleConfirm={toggleConfirm} message={"¿Cerrar mesa?"} />
-            <section className=' border-8 border-x-gray-100 h-2/3 w-1/2 flex max-h-fit flex-col py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg items-center'>
-                <div className='font-bold text-2xl mb-2'>Mesa {tableNumber}</div>
+            <section className='text-dark-green border-8 border-x-gray-100 h-2/3 w-1/2 flex max-h-fit flex-col py-4 px-3 my-4  mx-auto bg-white shadow-lg rounded-lg items-center'>
+                <div className=' font-bold text-xs md:text-2xl mb-2'>Mesa {tableNumber}</div>
                 <article className="flex overflow-auto p-4">
                     <div className=''>
                         {categories.map((category) => (
@@ -85,7 +85,7 @@ export const Table = () => {
                                 <ul className='w-auto '>
                                     {getProducts().map((product) => (
                                         category == product.category ?
-                                            < ul key={product.name} className=' text-base grid gap-4 grid-cols-[13rem,1rem,3rem,4em]' >
+                                            < ul key={product.name} className='text-xs md:text-base  grid gap-4 grid-cols-[13rem,1rem,3rem,4em]' >
                                                 <li>-{product.name} </li>
                                                 <li className='text-center'>{product.quantity}</li>
                                                 <li className='text-right'>${product.price.toLocaleString('de-DE')}</li>
@@ -115,10 +115,10 @@ export const Table = () => {
                 </article>
             </section >
             <div className="flex justify-center ">
-                <button className=" h-14 w-20 bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
-                type="button" onClick={toggleModal}> CERRAR MESA</button>
+                <button className=" h-14 w-20 bg-orange-20 hover:bg-orange-1 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button" onClick={toggleModal}> CERRAR MESA</button>
                 <button
-                    className="h-14 w-20  bg-gray-500 hover:bg-blue-700 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="h-14 w-20  bg-dark-green hover:bg-orange-1 text-white active:bg-blue-700 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {
                         handleClickAdd()

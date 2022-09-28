@@ -45,71 +45,71 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
         const newMenu = [...food];
         const product = newMenu.find((product) => product.name === name);
         product.quantity += 1;
-        
-        if(name==="Promo almuerzo"){
-              MySwal
-              .fire({
-                title: <p>Elige bebestible</p>,
-                  icon: 'question',
-                  showCancelButton: true,
-                  confirmButtonText: "Jugo",
-                  cancelButtonText: "Bebida",
-              })
-              .then(resultado => {
-                  if (resultado.value) {
-                    product.bebestible.push("Jugo")
-                  } else {
-                    product.bebestible.push("Bebida")
-                  }
-                  MySwal
-                  .fire({
-                    title: <p>Elige comestible</p>,
-                      icon: 'question',
-                      showCancelButton: true,
-                      confirmButtonText: "Ensalada",
-                      cancelButtonText: "Sopa",
-                  })
-                  .then(resultado => {
-                      if (resultado.value) {
-                        product.comestible.push("Ensalada")
-                      } else {
-                        product.comestible.push("Sopa")
-                      }
-                  });
-              });
+
+        if (name === "Promo almuerzo") {
+            MySwal
+                .fire({
+                    title: <p>Elige bebestible</p>,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: "Jugo",
+                    cancelButtonText: "Bebida",
+                })
+                .then(resultado => {
+                    if (resultado.value) {
+                        product.bebestible.push("Jugo")
+                    } else {
+                        product.bebestible.push("Bebida")
+                    }
+                    MySwal
+                        .fire({
+                            title: <p>Elige comestible</p>,
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: "Ensalada",
+                            cancelButtonText: "Sopa",
+                        })
+                        .then(resultado => {
+                            if (resultado.value) {
+                                product.comestible.push("Ensalada")
+                            } else {
+                                product.comestible.push("Sopa")
+                            }
+                        });
+                });
 
         }
-        if(name==="Brunch"){
-              MySwal
-              .fire({
-                title: <p>Elige bebestible</p>,
-                  icon: 'question',
-                  showCancelButton: true,
-                  confirmButtonText: "Té",
-                  cancelButtonText: "Café",
-              })
-              .then(resultado => {
-                  if (resultado.value) {
-                    product.bebestible="Té"
-                  } else {
-                    product.bebestible="Café"
-                  }
-                  MySwal
-                  .fire({
-                    title: <p>Elige comestible</p>,
-                      icon: 'question',
-                      showCancelButton: true,
-                      confirmButtonText: "Tostadas palta",
-                      cancelButtonText: "Tostadas huevo",
-                  })
-                  .then(resultado => {
-                      if (resultado.value) {
-                        product.comestible.push("Tostadas con huevo")
-                      } else {
-                        product.comestible.push("Tostadas con palta")
-                      }
-                  });
-              });
+        if (name === "Brunch") {
+            MySwal
+                .fire({
+                    title: <p>Elige bebestible</p>,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: "Té",
+                    cancelButtonText: "Café",
+                })
+                .then(resultado => {
+                    if (resultado.value) {
+                        product.bebestible = "Té"
+                    } else {
+                        product.bebestible = "Café"
+                    }
+                    MySwal
+                        .fire({
+                            title: <p>Elige comestible</p>,
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: "Tostadas palta",
+                            cancelButtonText: "Tostadas huevo",
+                        })
+                        .then(resultado => {
+                            if (resultado.value) {
+                                product.comestible.push("Tostadas con huevo")
+                            } else {
+                                product.comestible.push("Tostadas con palta")
+                            }
+                        });
+                });
         }
         setFood(newMenu);
     }
@@ -126,37 +126,38 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
     const toggleModal = () => {
         const products = food.filter((product) => product.quantity > 0);
         if (products.length != 0) {
-            setModal(!modal)}
+            setModal(!modal)
+        }
         else {
             MySwal.fire({
                 title: <p>No tienes ningún producto seleccionado</p>
-              })
+            })
         }
     }
 
     const toggleConfirm = (status) => {
-        if(status){
-          handleSendOrder()
-        }else{
-          toggleModal()
+        if (status) {
+            handleSendOrder()
+        } else {
+            toggleModal()
         }
     }
 
     const handleSendOrder = () => {
         const products = food.filter((product) => product.quantity > 0);
-            addDoc(collection(db, 'orders'), {
-                date: Timestamp.fromDate(new Date()),
-                table: tableNumber,
-                products,
-                orderId: tableNumber + "-" + uuidv4(),
-                estado: "Preparando",
-                observaciones: observations,
-            })
-            food.forEach((product) => {
-                product.quantity = 0;
-            })
-            closeMenu()
-            navigate('/Salon')
+        addDoc(collection(db, 'orders'), {
+            date: Timestamp.fromDate(new Date()),
+            table: tableNumber,
+            products,
+            orderId: tableNumber + "-" + uuidv4(),
+            estado: "Preparando",
+            observaciones: observations,
+        })
+        food.forEach((product) => {
+            product.quantity = 0;
+        })
+        closeMenu()
+        navigate('/Salon')
     }
 
     const handleClikCategory = (e) => {
@@ -174,11 +175,11 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
                             <ModalConfirm modal={modal} toggleConfirm={toggleConfirm} message={"¿Enviar a cocina?"} />
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 <div className="flex items-center justify-between py-2 px-4 border-b border-solid border-slate-200 rounded-t">
-                                    <h3 className="text-2xl p-2  font-semibold">
+                                    <h3 className="text-2xl p-2 text-dark-green font-bold">
                                         Mesa {tableNumber}
                                     </h3>
                                     <button
-                                        className="  w-8 h-8 bg-gray-500  text-white font-bold  rounded shadow  text-xl leading-none  outline-none focus:outline-none"
+                                        className="  w-8 h-8 bg-orange-1 text-white font-bold  rounded shadow  text-xl leading-none  outline-none focus:outline-none"
                                         onClick={closeMenu}
                                     >
                                         <span className="   ">
@@ -189,9 +190,9 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
                                 <div className="relative p-6 flex-auto">
                                     {unique.map((category) => (
                                         <div key={category} className="w-full">
-                                            <button className="flex bg-gray-200 text-lg cursor-pointer p-2 text-left w-full hover:bg-gray-300 justify-between" onClick={handleClikCategory} key={category}>
+                                            <button className="flex bg-orange-80 text-lg text-dark-green font-bold cursor-pointer p-2 text-left w-full hover:bg-orange-70 justify-between" onClick={handleClikCategory} key={category}>
                                                 <p className="">{category}</p>
-                                                <img src={flecha} className="w-4"></img>
+                                                <img src={flecha} className="font-white w-4"></img>
                                             </button>
                                             <div className="bg-white hidden overflow-hidden px-1 text-base">
                                                 {food.map((product) =>
@@ -200,10 +201,12 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
                                                             <span className="w-60 self-center">{product.name}</span>
                                                             <span className="w-10 self-center">${product.price.toLocaleString('de-DE')}</span>
                                                             <div className="justify-self-end">
-                                                                <button className="px-2 m-2 w-8 h-8 border-2 rounded-full bg-gray-300 font-bold hover:bg-blue-700" onClick={() => { handleRest(product.name) }}>-</button>
+                                                                <button className="px-2 m-2 w-8 h-8 border-2 rounded-full bg-orange-60 font-bold hover:bg-orange-70" onClick={() => { handleRest(product.name) }}>-</button>
                                                                 <label className="p-2">{product.quantity}</label>
-                                                                <button className="px-2 m-2 w-8 h-8 border-2 rounded-full bg-gray-300 font-bold hover:bg-blue-700" onClick={() => { handlePlus(product.name) }}>+</button>
+                                                                <button className="px-2 m-2 w-8 h-8 border-2 rounded-full bg-orange-60 font-bold hover:bg-orange-70" onClick={() => { handlePlus(product.name) }}>+</button>
+
                                                             </div>
+
                                                         </div>
                                                         : null
                                                 )}
@@ -214,7 +217,7 @@ export function Menu({ showMenu, closeMenu, tableNumber, time }) {
                                 <div className="flex items-center justify-between p-6 border-t border-solid border-slate-200 rounded-b">
                                     <input type="text" placeholder="Observaciones" onChange={(e) => setObservations(e.target.value)} />
                                     <button
-                                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        className="bg-dark-green text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none  self-end ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={toggleModal}
                                     >
