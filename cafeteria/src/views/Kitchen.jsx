@@ -3,6 +3,7 @@ import { Clock } from '../components/Clock'
 import { OrderKitchen } from '../components/OrderKitchen'
 import { OrdersContext } from '../context/OrdersContext.jsx'
 import { ButtonSignOut } from '../components/ButtonSignOut'
+import '../img/logo.png'
 
 export function Kitchen() {
 

@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { ButtonSignOut } from '../components/ButtonSignOut'
 import { CircleTable } from '../components/CircleTable'
 import { SquareTable } from '../components/SquareTable'
-
+import '../img/logo.png'
+import '../img/floor.png'
 
 export const Diner = () => {
     let navigate = useNavigate();
