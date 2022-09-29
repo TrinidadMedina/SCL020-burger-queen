@@ -7,8 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { ButtonSignOut } from '../components/ButtonSignOut'
 import { CircleTable } from '../components/CircleTable'
 import { SquareTable } from '../components/SquareTable'
-import '../img/logo.png'
-import '../img/floor.png'
+import logo from '../img/logo.png'
+import floor from '../img/floor.png'
+
 
 export const Diner = () => {
     let navigate = useNavigate();
@@ -34,14 +35,13 @@ export const Diner = () => {
             <nav>
                 <header className="flex justify-between">
                     <ButtonSignOut />
-                    <div className='w-20 '>
-                        <img src="../img/logo.png" alt="" />
+                    <div className='w-20' >
+                        <img src={logo} alt="" />
                     </div>
-
                     <Clock />
                 </header>
             </nav>
-            <div className="grid gap-2 grid-cols-3 grid-rows-2 place-items-center w-4/5  h-2/5 bg-fixed m-auto bg-cover bg-[url('../img/floor.png')] shadow-lg rounded  " >
+            <div className={`bg-[url(..${floor})] grid gap-2 grid-cols-3 grid-rows-2 place-items-center w-4/5  h-2/5 bg-fixed m-auto bg-cover  shadow-lg rounded  `}  >
                 {allTables.map((table, i) =>
                     i < allTables.length / 2 ?
                         <SquareTable table={table} activateTables={activateTables} />
