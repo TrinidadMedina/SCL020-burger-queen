@@ -8,7 +8,7 @@ Además permite diferentes menús según el horario y una visualización general
 
 ## Pruébala pinchando [aquí](https://scl-020-burger-queen-eta.vercel.app/) 👈     
 
-## 2. Historias de usuario
+## Historias de usuario
 La plataforma está adaptada para ser usada en una tablet, y cuenta con dos perfiles de uso, de mesero/a y de cocina.
 Tenemos 2 menús: desayuno y almuerzo
 
