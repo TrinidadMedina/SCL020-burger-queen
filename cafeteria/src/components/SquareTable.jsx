@@ -15,7 +15,7 @@ export function SquareTable({ table, activateTables }) {
                     <h1 className="text-4xl font-bold ">{table.number}</h1>
                 </div>
                 <div id="chairWrapper" className='invisible md:visible h-2/5   rotate-[180deg]'>
-                    <img src={table.active ? "../img/active-chair.svg" : "../img/inactive-chair.svg"} alt="" />
+                    <img src={table.active ? chairActive : chairInactive} alt="" />
                 </div>
             </div>
         </>
