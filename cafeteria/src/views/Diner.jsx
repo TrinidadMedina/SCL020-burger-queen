@@ -8,7 +8,7 @@ import { ButtonSignOut } from '../components/ButtonSignOut'
 import { CircleTable } from '../components/CircleTable'
 import { SquareTable } from '../components/SquareTable'
 import logo from '../img/logo.png'
-import floor from '../img/floor.png'
+import floor from '../img/floor2.png'
 
 
 export const Diner = () => {
